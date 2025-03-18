@@ -1,6 +1,6 @@
 {
-  "name": "reaper-framework",
-  "version": "0.1.23-beta",
+  "name": "rprcli",
+  "version": "0.1.0-base",
   "bin": "./cli.js",
   "contributors": [
     {
