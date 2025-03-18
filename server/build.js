@@ -3,8 +3,8 @@ const path = require("path");
 const sassPlugin = require("esbuild-plugin-sass");
 const tailwindPlugin = require("esbuild-plugin-tailwindcss");
 const fs = require("fs")
-const dirs = require("reaper-framework/server/config/dirs");
-const logger = require("reaper-framework/utils/logger")
+const dirs = require("rprcli/server/config/dirs");
+const logger = require("rprcli/utils/logger")
 
 const {
   controllerDir,

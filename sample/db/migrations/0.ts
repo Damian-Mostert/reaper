@@ -1,4 +1,4 @@
-import { Migration } from "reaper-framework";
+import { Migration } from "rprcli";
 export default Migration("auth-tokens",{
     up(blueprint){
         blueprint.id()

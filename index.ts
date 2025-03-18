@@ -1,6 +1,6 @@
 
 import { Response,Request } from "express";
-import Database, { Model,Migration ,BluePrint,} from "reaper-framework/db";
+import Database, { Model,Migration ,BluePrint,} from "rprcli/db";
 export {Model,Database,BluePrint,Migration};
 class Auth{
     private req:Request

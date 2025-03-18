@@ -1,4 +1,4 @@
-import { Model, decrypt, encrypt } from "reaper-framework";
+import { Model, decrypt, encrypt } from "rprcli";
 import { user } from "types/user";
 export const Users  = new Model<user>("users",{
     formatOnSet(newData,oldData){

@@ -1,7 +1,7 @@
 const path = require("path");
-const { mainFile } = require("reaper-framework/server/config/dirs");
-const ReaperRequest = require('reaper-framework/server/lib/reaperRequest');
-const ReaperResponse = require('reaper-framework/server/lib/reaperResponse');
+const { mainFile } = require("rprcli/server/config/dirs");
+const ReaperRequest = require('rprcli/server/lib/reaperRequest');
+const ReaperResponse = require('rprcli/server/lib/reaperResponse');
 
 module.exports = (app)=>async function(req,res,next){
     const routes = app.routes;

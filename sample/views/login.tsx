@@ -1,6 +1,6 @@
 
 import {useEffect,useState} from "react";
-import render from 'reaper-framework/client';
+import render from 'rprcli/client';
 import "../styles/globals.scss";
 
 function Home(){

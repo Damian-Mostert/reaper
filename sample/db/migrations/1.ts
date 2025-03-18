@@ -1,4 +1,4 @@
-import { Migration } from "reaper-framework";
+import { Migration } from "rprcli";
 export default Migration("users",{
     up(blueprint){
         blueprint.id()

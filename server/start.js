@@ -7,8 +7,8 @@ module.exports = function newServer() {
     const app = express();
     const port = 3000;
     logger.log("loading", "Starting server...");
-    const loadRoutes = require("reaper-framework/server/lib/loadRoutes");
-    const APP = require("reaper-framework/server/lib/load");
+    const loadRoutes = require("rprcli/server/lib/loadRoutes");
+    const APP = require("rprcli/server/lib/load");
     app.set("view engine", "ejs");
     app.set("views", path.join(__dirname, "views"));
     app.use(loadRoutes(APP));

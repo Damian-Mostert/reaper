@@ -1,11 +1,11 @@
 import { writeFileSync } from "fs"
 import path from "path"
-import logger from "reaper-framework/utils/logger";
+import logger from "rprcli/utils/logger";
 
 export default function createSeeder(){
 logger.log("loading","making new seeder...");
 const sample = ({table})=>`
-import { Seeder } from "reaper-framework";
+import { Seeder } from "rprcli";
 const ${table}Seeder = new Seeder("${table}",(q)=>{
 })
 ${table}Seeder.seed().then(res=>{

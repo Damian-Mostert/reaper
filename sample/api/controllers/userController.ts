@@ -1,5 +1,5 @@
 //import { Users } from "@db/models/user";
-import { Controller } from "reaper-framework";
+import { Controller } from "rprcli";
 const userController:Controller={
     async details(request,response){
         const user = await request.user();

@@ -1,10 +1,10 @@
 import { writeFileSync } from "fs"
 import path from "path"
-import logger from "reaper-framework/utils/logger";
+import logger from "rprcli/utils/logger";
 export default function createMigration(){
     logger.log("loading","making new migration...");
     const sample = ({table})=>`
-import { Migration } from "reaper-framework/db";
+import { Migration } from "rprcli/db";
 export default Migration("${table}",{
     up(blueprint){
     },

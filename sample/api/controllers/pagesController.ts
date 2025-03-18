@@ -1,4 +1,4 @@
-import { Controller } from "reaper-framework";
+import { Controller } from "rprcli";
 import { Users } from "../../db/models/user";
 const pageController:Controller={
     async home(request,response){

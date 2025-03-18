@@ -1,11 +1,11 @@
 import { writeFileSync } from "fs"
 import path from "path"
-import logger from "reaper-framework/utils/logger"
+import logger from "rprcli/utils/logger"
 
 export default function createController(){
     logger.log("loading","making new controller...");
     const sample = ({table})=>`
-import { Controller } from "reaper-framework";
+import { Controller } from "rprcli";
 const ${table}Controller:Controller={
 }
 export default ${table}Controller;`

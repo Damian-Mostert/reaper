@@ -1,6 +1,6 @@
-import BluePrint from "reaper-framework/db/lib/bluePrint";
-import { ModelSchema } from "reaper-framework/db/lib/model";
-import query, { connectionParams } from "reaper-framework/db/lib/query";
+import BluePrint from "rprcli/db/lib/bluePrint";
+import { ModelSchema } from "rprcli/db/lib/model";
+import query, { connectionParams } from "rprcli/db/lib/query";
 
 export async function Migration(tableName:string,databaseSchema:ModelSchema){
     return async function(mode:"up"|"down"){

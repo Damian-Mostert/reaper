@@ -1,6 +1,6 @@
 import { writeFileSync } from "fs"
 import path from "path"
-import logger from "reaper-framework/utils/logger";
+import logger from "rprcli/utils/logger";
 
 export default function createTemplate(){
     logger.log("loading","making new template...");

@@ -1,11 +1,11 @@
 import { writeFileSync } from "fs"
 import path from "path"
-import logger from "reaper-framework/utils/logger";
+import logger from "rprcli/utils/logger";
 
 export default function createModel(){
 logger.log("loading","making new model...");
 const sample = ({table})=>`
-import { Model } from "reaper-framework";
+import { Model } from "rprcli";
 export const ${table}Model  = new Model("${table}",{
     private:[],
     format(res){
