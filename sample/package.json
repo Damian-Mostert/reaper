@@ -12,7 +12,7 @@
         }
     ],
     "dependencies": {
-        "rprcli": "latest"
+        "rprcli": "^0.1.8-base"
     },
     "devDependencies": {
         "@types/react": "^18"

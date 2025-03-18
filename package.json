@@ -16,6 +16,7 @@
     "url": "https://github.com/Damian-Mostert/reaper.git"
   },
   "dependencies": {
+    "ws":"latest",
     "ejs":"latest",
     "esbuild-plugin-sass":"latest",
     "esbuild-plugin-tailwindcss":"latest",
