@@ -1,6 +1,6 @@
 {
   "name": "rprcli",
-  "version": "0.1.0-base",
+  "version": "0.1.1-base",
   "bin": "./cli.js",
   "contributors": [
     {
@@ -18,7 +18,7 @@
     "esbuild-plugin-tailwindcss":"latest",
     "esbuild":"latest",
     "chokidar":"latest",
-    "reaper-test":"0.0.8-example",
+    "reaper-example":"0.1.0-example",
     "autoprefixer":"latest",
     "tailwindcss":"latest",
     "postcss-preset-env":"latest",
