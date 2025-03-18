@@ -1,33 +1,52 @@
-# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
-# For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
-
 name: Node.js Package
 
 on:
+  push:
+    branches:
+      - main  # This will trigger when pushing to the main branch. You can change it if you prefer a different branch.
   release:
-    types: [created]
+    types: [created]  # Optional: Trigger on release creation if desired
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - run: npm ci
-      - run: npm test
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-  publish-npm:
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'  # Change to your desired Node.js version
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test  # Optional, if you have tests
+
+  publish:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout code again
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js again
+        uses: actions/setup-node@v4
         with:
-          node-version: 20
-          registry-url: https://registry.npmjs.org/
-      - run: npm ci
-      - run: npm publish
+          node-version: '20'  # Same version as above
+          registry-url: https://registry.npmjs.org/  # Ensure npm registry is used
+
+      - name: Install dependencies again
+        run: npm ci
+
+      - name: Bump version and tag commit
+        run: |
+          npm version patch -m "Release version %s"  # Automatically bump the version
+          git push --follow-tags
+
+      - name: Publish to npm
+        run: npm publish --access public  # Add --access public for public packages
         env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}  # Make sure npm token is correctly added to GitHub secrets
