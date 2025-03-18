@@ -97,7 +97,7 @@ export interface ReaperRoutes {
   Post: RouteHandler;
   Middleware: (url:url,handler:AtPrefixedString,input:(sub:ReaperRoutes)=>void)=>void;
   Group: (url:url,input:(sub:ReaperRoutes)=>void)=>void;
-  useSocket:(name:string,url:url,socket:`@${string}Socket`)=>void
+  Socket:(name:string,url:url,socket:`@${string}Socket`)=>void
 }
 
 export class Socket{
@@ -111,7 +111,7 @@ export class Socket{
 
     }
     disconnect(){
-        
+
     }
 }
 

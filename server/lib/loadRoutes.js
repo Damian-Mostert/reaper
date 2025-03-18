@@ -1,7 +1,6 @@
 const path = require("path");
-const { mainFile } = require("rprcli/server/config/dirs");
-const ReaperRequest = require('rprcli/server/lib/reaperRequest');
-const ReaperResponse = require('rprcli/server/lib/reaperResponse');
+const ReaperRequest = require('./reaperRequest');
+const ReaperResponse = require('./reaperResponse');
 
 module.exports = (app)=>async function(req,res,next){
     const routes = app.routes;
@@ -27,7 +26,8 @@ module.exports = (app)=>async function(req,res,next){
             Get:(name,url,ReaperCallback)=>Get(name,path.join(main_url,url),ReaperCallback),
             Post:(name,url,ReaperCallback)=>Get(name,path.join(main_url,url),ReaperCallback),
             Middleware,
-            Group
+            Group,
+            Socket
         });
     }
     const Group =(main_url,input)=>{
@@ -35,17 +35,19 @@ module.exports = (app)=>async function(req,res,next){
             Get:(name,url,ReaperCallback)=>Get(name,path.join(main_url,url),ReaperCallback),
             Post:(name,url,ReaperCallback)=>Get(name,path.join(main_url,url),ReaperCallback),
             Middleware,
-            Group
+            Group,
+            Socket
         });
     }
-    const useSocket =(name,url,socket)=>{
+    const Socket =(name,url,socket)=>{
+        const socket = app.sockets[`${socket}.js`];
     }
     routes({
         Get,
         Post,
         Middleware,
         Group,
-        useSocket
+        Socket
     });
     const renderTemplate =async (name,data={})=>{
         res.render("index",{

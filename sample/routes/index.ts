@@ -6,11 +6,13 @@ export default function MainRoutes({
     Post,
     Middleware,
     Group,
-    useSocket
+    Socket
 }:ReaperRoutes) {
+    //socket
+    Socket("testSocket","/test","@testSocket");
+    //api
     Group("/api",ApiRoutes)
     ///Pages
-    useSocket("testSocket","/test","@testSocket");
     Get("home-page","/","@pagesController.home")
     Get("login-page","/login","@pagesController.login")
     Get("register-page","/register","@pagesController.register");
