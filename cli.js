@@ -17,7 +17,7 @@ const scripts = {
   "seed": `npx env-cmd -f "${path.join(process.cwd(), "./.env")}" node ${path.join(__dirname, "commands/seed")} {{}}`,
   "migrate": `npx env-cmd -f "${path.join(process.cwd(), "./.env")}" node ${path.join(__dirname, "commands/migrate")}`,
   "rollback": `npx env-cmd -f "${path.join(process.cwd(), "./.env")}" node ${path.join(__dirname, "commands/rollback")}`,
-  "init": `node ${__dirname}/init.js`,
+  "init": `node ${__dirname}/commands/init.js`,
   "build": `npx env-cmd -f "${path.join(process.cwd(), "./.env")}" node ${path.join(__dirname, "commands/build.js")}`,
   "dev": `npx env-cmd -f "${path.join(process.cwd(), "./.env")}" node ${path.join(__dirname, "commands/dev.js")}`,
   "start": `npx env-cmd -f "${path.join(process.cwd(), "./.env")}" node ${path.join(__dirname, "commands/start.js")}`,
