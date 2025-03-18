@@ -1,5 +1,5 @@
 import { Controller } from "reaper-framework";
-import { Users } from "db/models/user";
+import { Users } from "../../db/models/user";
 const pageController:Controller={
     async home(request,response){
         response.render("home",{
