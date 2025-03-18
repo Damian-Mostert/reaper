@@ -8,4 +8,5 @@ npm i rprcli
 npx rprcli init
 ```
 ## Docs
+https://reaper-tan.vercel.app/
 
