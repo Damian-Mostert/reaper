@@ -1,6 +1,6 @@
 
 import { Response,Request } from "express";
-import Database, { Model,Migration ,BluePrint,} from "rprcli/db";
+import {Database, Model,Migration ,BluePrint,} from "./db";
 export {Model,Database,BluePrint,Migration};
 class Auth{
     private req:Request
@@ -83,8 +83,9 @@ export class ReaperResponse{
         this.res.json(body);
     }
 }
-export type AtPrefixedString = `@${string}`;
-export type AtPrefixedString2 = `@${string}.${string}`;
+export type url = `/${string}`|`/`
+export type AtPrefixedString = `@${string}Middleware`;
+export type AtPrefixedString2 = `@${string}Controller.${string}`;
 export type Middleware = (request:ReaperRequest,response:ReaperResponse,next:()=>void)=>void
 export type Controller = {
     [key:string]:ReaperCallback
@@ -94,8 +95,24 @@ export type RouteHandler = (name:string,url:string, ReaperCallback:AtPrefixedStr
 export interface ReaperRoutes {
   Get: RouteHandler;
   Post: RouteHandler;
-  Middleware: (url:string,handler:AtPrefixedString,input:(sub:ReaperRoutes)=>void)=>void;
-  Group: (url:string,input:(sub:ReaperRoutes)=>void)=>void;
+  Middleware: (url:url,handler:AtPrefixedString,input:(sub:ReaperRoutes)=>void)=>void;
+  Group: (url:url,input:(sub:ReaperRoutes)=>void)=>void;
+  useSocket:(name:string,url:url,socket:`@${string}Socket`)=>void
+}
+
+export class Socket{
+    constructor(){
+
+    }
+    on(){
+
+    }
+    emit(){
+
+    }
+    disconnect(){
+        
+    }
 }
 
 export const encrypt=(string:any)=>{

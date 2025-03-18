@@ -38,11 +38,14 @@ module.exports = (app)=>async function(req,res,next){
             Group
         });
     }
+    const useSocket =(name,url,socket)=>{
+    }
     routes({
         Get,
         Post,
         Middleware,
-        Group
+        Group,
+        useSocket
     });
     const renderTemplate =async (name,data={})=>{
         res.render("index",{
