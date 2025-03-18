@@ -15,4 +15,5 @@ async function copyFiles() {
     console.error('Error copying files:', err);
   }
 }
+
 copyFiles();
