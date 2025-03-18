@@ -1,6 +1,6 @@
 {
   "name": "rprcli",
-  "version": "0.1.1-base",
+  "version": "0.1.2-base",
   "bin": "./cli.js",
   "contributors": [
     {
