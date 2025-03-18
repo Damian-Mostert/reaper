@@ -1,5 +1,7 @@
 import React from 'react'
 import ReactDOM from "react-dom/client";
+
+
 export default function render(q:string,children:any){
         const elements = document.querySelectorAll(q);
         elements.forEach(el=>{
