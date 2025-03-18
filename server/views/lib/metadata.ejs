@@ -1,0 +1,44 @@
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <% if (typeof title !== "undefined") { %>
+        <title><%= title %></title>
+    <% } %>
+    <% if (typeof description !== "undefined") { %>
+        <meta name="description" content="<%= description.replace(/"/g, '\\"') %>"></meta>
+    <% } %>
+    <% if (typeof author !== "undefined") { %>
+        <meta name="author" content="<%= author %>"></meta>
+    <% } %>
+    <% if (typeof keywords !== "undefined") { %>
+        <meta name="keywords" content="<%= keywords %>"></meta>
+    <% } %>
+    <% if (typeof ogTitle !== "undefined") { %>
+        <meta property="og:title" content="<%= ogTitle %>"></meta>
+    <% } %>
+    <% if (typeof ogDescription !== "undefined") { %>
+        <meta property="og:description" content="<%= ogDescription.replace(/"/g, '\\"') %>"></meta>
+    <% } %>
+    <% if (typeof ogImage !== "undefined") { %>
+        <meta property="og:image" content="<%= ogImage %>"></meta>
+    <% } %>
+    <% if (typeof ogUrl !== "undefined") { %>
+        <meta property="og:url" content="<%= ogUrl %>"></meta>
+    <% } %>
+    <% if (typeof twitterCard !== "undefined") { %>
+        <meta name="twitter:card" content="<%= twitterCard %>"></meta>
+    <% } %>
+    <% if (typeof twitterTitle !== "undefined") { %>
+        <meta name="twitter:title" content="<%= twitterTitle %>"></meta>
+    <% } %>
+    <% if (typeof twitterDescription !== "undefined") { %>
+        <meta name="twitter:description" content="<%= twitterDescription.replace(/"/g, '\\"') %>"></meta>
+    <% } %>
+    <% if (typeof twitterImage !== "undefined") { %>
+        <meta name="twitter:image" content="<%= twitterImage %>"></meta>
+    <% } %>
+    <% if (typeof favicon !== "undefined") { %>
+        <link rel="icon" href="<%= favicon %>" type="image/x-icon">
+    <% } %>    
+</head>

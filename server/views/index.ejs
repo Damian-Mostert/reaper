@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('./lib/metadata.ejs', { title, description, author, keywords, ogTitle, ogDescription, ogImage, ogUrl, twitterCard, twitterTitle, twitterDescription, twitterImage, favicon }) %>
+    <body>
+        <root></root>
+        <%- include('./lib/clientSideProps.ejs', { clientSideProps }) %>
+        <%- include('./lib/hotReload.ejs') %>
+        <script src="/<%= script %>.js"></script>
+        <link rel="stylesheet" href="/<%= script %>.css">
+    </body>
+</html>
+
+
+
