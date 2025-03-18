@@ -1,7 +1,7 @@
 // copy-files.js
 const fs = require('fs-extra');
 const path = require('path');
-const sourceDir = path.join(__dirname, '../../reaper-test');
+const sourceDir = path.join(__dirname, '../sample');
 const destinationDir = process.cwd();
 async function copyFiles() {
   try {
