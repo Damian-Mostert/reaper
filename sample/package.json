@@ -1,0 +1,25 @@
+{
+    "name": "reaper-example",
+    "version": "0.1.0-example",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Damian-Mostert/reaper-example.git"
+    },
+    "contributors": [
+        {
+            "name": "Damian Mostert",
+            "url": "https://github.com/Damian-Mostert"
+        }
+    ],
+    "dependencies": {
+        "react": "^18.3.1",
+        "react-dnd": "^16.0.1",
+        "react-dom": "^18",
+        "rprcli": "^0.1.0-base"
+    },
+    "devDependencies": {
+        "@types/react": "^18",
+        "ts-loader": "^9.5.2",
+        "typescript": "^5.8.2"
+    }
+}
