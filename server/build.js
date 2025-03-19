@@ -5,7 +5,7 @@ const tailwindPlugin = require("esbuild-plugin-tailwindcss");
 const fs = require("fs")
 const dirs = require("rprcli/server/config/dirs");
 const logger = require("rprcli/utils/logger");
-
+if(fs.existsSync(path.join(process.cwd(),"./.reaper/out")))fs.rmdirSync(path.join(process.cwd(),"./.reaper/out",),{recursive:true});
 const {
   controllerDir,
   middlewareDir,
@@ -18,14 +18,9 @@ const {
   socketsDir
 } = dirs;
 const tsConfigPath = path.join(process.cwd(), "tsconfig.json");
-
 async function build(files = [],sub,mode="client") {
   const tsConfig = JSON.parse(fs.readFileSync(tsConfigPath, "utf8"));
-
-  // Extract alias paths
   const aliasPaths = tsConfig.compilerOptions?.paths || {};
-  
-  // Convert TypeScript paths into esbuild's alias format
   const alias = Object.entries(aliasPaths).reduce((acc, [key, values]) => {
     const aliasKey = key.replace("/*", ""); // Remove '/*' at the end
     const aliasValue = path.join(process.cwd(), values[0].replace("/*", "")); // Resolve absolute path
