@@ -106,7 +106,7 @@ interface Device{
 interface Event<T>{
     user:any,
     device:Device,
-    Data:T
+    data:T
 }
 type socketCallback<T>=(event:Event<T>)=>void;
 
@@ -117,7 +117,7 @@ export class Socket<Funnle>{
     async init(){
 
     }
-    on<T>(event:string,callback:socketCallback<Funnle>){
+    on(event:string,callback:socketCallback<Funnle>){
         this.events.push({
             event,
             callback,
