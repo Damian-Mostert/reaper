@@ -2,7 +2,7 @@ const express = require("express");
 const path = require("path");
 const WebSocket = require("ws");
 const logger = require("../utils/logger");
-
+const fs = require("fs")
 
 fs.unlinkSync(process.cwd(),"./reaper/out");
 
