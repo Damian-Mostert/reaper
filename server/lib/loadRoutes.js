@@ -48,8 +48,8 @@ module.exports = (app,server)=>async function(req,res,next){
     const renderTemplate =async (name,data={})=>{
         res.render("index",{
             script:name,
-            metadata:{
-                clientSideProps:data.props?data.props:{},
+            clientSideProps:data.props?data.props:{},
+            metadata:{                
                 title: 'Reaper website',
                 description: 'A website made with the reaper framework',
                 author: 'Damian Mostert',
