@@ -4,7 +4,7 @@
 <div id="reaper-client-side-names" style="display: none;">
     <%= JSON.stringify(clientSideNames) %>
 </div>
-<script>
+<script id="data-injection-script">
     (function() {
         const propsElement = document.getElementById("reaper-client-side-props");
         if (propsElement) {
@@ -16,5 +16,8 @@
             window.reaperClientSideNames = JSON.parse(propsElement2.textContent);
             propsElement2.remove()
         }
+
+        const self = document.getElementById("data-injection-script");
+        self.remove()
     })();
 </script>

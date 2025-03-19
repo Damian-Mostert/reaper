@@ -37,7 +37,7 @@ export function useSocket<socketFunnle>(name:string){
 
 export function useApi<T, T2>(name: string) {
     //@ts-ignore
-    const api = window.reaperClientSideNames.find((n: any) => n.name === name);
+    const api = window.reaperClientSideNames.apis.find((n: any) => n.name === name);
     if (!api) throw new Error(`Invalid API name: ${name}`);
 
     return {
