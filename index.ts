@@ -86,6 +86,8 @@ export class ReaperResponse{
 export type url = `/${string}`|`/`
 export type AtPrefixedString = `@${string}Middleware`;
 export type AtPrefixedString2 = `@${string}Controller.${string}`;
+export type AtPrefixedString3 = `@${string}Socket`;
+
 export type Middleware = (request:ReaperRequest,response:ReaperResponse,next:()=>void)=>void
 export type Controller = {
     [key:string]:ReaperCallback
@@ -97,7 +99,6 @@ export interface ReaperRoutes {
   Post: RouteHandler;
   Middleware: (url:url,handler:AtPrefixedString,input:(sub:ReaperRoutes)=>void)=>void;
   Group: (url:url,input:(sub:ReaperRoutes)=>void)=>void;
-  Socket:(name:string,url:url,socket:`@${string}Socket`)=>void
 }
 
 interface Device{
@@ -112,6 +113,10 @@ type socketCallback<T>=(event:Event<T>)=>void;
 
 interface EventStorage<T>{event:string,callback:T}
 export class Socket<Funnle>{
+    private name:string;
+    constructor(name:string){
+        this.name = name;
+    }
     public events:EventStorage<socketCallback<Funnle>>[] = [];
     public ws:WebSocket;
     async init(){

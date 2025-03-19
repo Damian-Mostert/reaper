@@ -24,7 +24,6 @@ module.exports = function newServer() {
             ws.send("connected");
         });
     });
-
     // Gracefully close WebSocket server when the HTTP server is closed
     server.on("close", () => {
         logger.log("info", "Server and WebSockets closed.");

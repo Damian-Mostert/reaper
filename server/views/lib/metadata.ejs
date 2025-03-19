@@ -1,44 +1,44 @@
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <% if (typeof title !== "undefined") { %>
-        <title><%= title %></title>
+
+    <% if (metadata?.title) { %>
+        <title><%= metadata.title %></title>
     <% } %>
-    <% if (typeof description !== "undefined") { %>
-        <meta name="description" content="<%= description.replace(/"/g, '\\"') %>"></meta>
+    <% if (metadata?.description) { %>
+        <meta name="description" content="<%= metadata.description.replace(/"/g, '\\"') %>">
     <% } %>
-    <% if (typeof author !== "undefined") { %>
-        <meta name="author" content="<%= author %>"></meta>
+    <% if (metadata?.author) { %>
+        <meta name="author" content="<%= metadata.author %>">
     <% } %>
-    <% if (typeof keywords !== "undefined") { %>
-        <meta name="keywords" content="<%= keywords %>"></meta>
+    <% if (metadata?.keywords) { %>
+        <meta name="keywords" content="<%= metadata.keywords %>">
     <% } %>
-    <% if (typeof ogTitle !== "undefined") { %>
-        <meta property="og:title" content="<%= ogTitle %>"></meta>
+    <% if (metadata?.ogTitle) { %>
+        <meta property="og:title" content="<%= metadata.ogTitle %>">
     <% } %>
-    <% if (typeof ogDescription !== "undefined") { %>
-        <meta property="og:description" content="<%= ogDescription.replace(/"/g, '\\"') %>"></meta>
+    <% if (metadata?.ogDescription) { %>
+        <meta property="og:description" content="<%= metadata.ogDescription.replace(/"/g, '\\"') %>">
     <% } %>
-    <% if (typeof ogImage !== "undefined") { %>
-        <meta property="og:image" content="<%= ogImage %>"></meta>
+    <% if (metadata?.ogImage) { %>
+        <meta property="og:image" content="<%= metadata.ogImage %>">
     <% } %>
-    <% if (typeof ogUrl !== "undefined") { %>
-        <meta property="og:url" content="<%= ogUrl %>"></meta>
+    <% if (metadata?.ogUrl) { %>
+        <meta property="og:url" content="<%= metadata.ogUrl %>">
     <% } %>
-    <% if (typeof twitterCard !== "undefined") { %>
-        <meta name="twitter:card" content="<%= twitterCard %>"></meta>
+    <% if (metadata?.twitterCard) { %>
+        <meta name="twitter:card" content="<%= metadata.twitterCard %>">
     <% } %>
-    <% if (typeof twitterTitle !== "undefined") { %>
-        <meta name="twitter:title" content="<%= twitterTitle %>"></meta>
+    <% if (metadata?.twitterTitle) { %>
+        <meta name="twitter:title" content="<%= metadata.twitterTitle %>">
     <% } %>
-    <% if (typeof twitterDescription !== "undefined") { %>
-        <meta name="twitter:description" content="<%= twitterDescription.replace(/"/g, '\\"') %>"></meta>
+    <% if (metadata?.twitterDescription) { %>
+        <meta name="twitter:description" content="<%= metadata.twitterDescription.replace(/"/g, '\\"') %>">
     <% } %>
-    <% if (typeof twitterImage !== "undefined") { %>
-        <meta name="twitter:image" content="<%= twitterImage %>"></meta>
+    <% if (metadata?.twitterImage) { %>
+        <meta name="twitter:image" content="<%= metadata.twitterImage %>">
     <% } %>
-    <% if (typeof favicon !== "undefined") { %>
-        <link rel="icon" href="<%= favicon %>" type="image/x-icon">
+    <% if (metadata?.favicon) { %>
+        <link rel="icon" href="<%= metadata.favicon %>" type="image/x-icon">
     <% } %>    
 </head>

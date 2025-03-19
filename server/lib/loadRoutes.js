@@ -2,10 +2,11 @@ const path = require("path");
 const ReaperRequest = require('./reaperRequest');
 const ReaperResponse = require('./reaperResponse');
 
-module.exports = (app)=>async function(req,res,next){
+module.exports = (app,server)=>async function(req,res,next){
     const routes = app.routes;
     const build = {};
     const middleware = {};
+
     const Get = (name,url,callback)=>{
         build[name] = {
             method:"GET",
@@ -39,34 +40,33 @@ module.exports = (app)=>async function(req,res,next){
             Socket
         });
     }
-    const Socket =(name,url,_socket)=>{
-        //const socket = app.sockets[`${_socket}.js`];
-    }
     routes({
         Get,
         Post,
         Middleware,
         Group,
-        Socket
     });
+
     const renderTemplate =async (name,data={})=>{
         res.render("index",{
             script:name,
-            clientSideProps:data,
-            title: 'Reaper website',
-            description: 'A website made with the reaper framework',
-            author: 'Damian Mostert',
-            keywords: '',
-            ogTitle: '',
-            ogDescription: '',
-            ogImage: '',
-            ogUrl: '',
-            twitterCard: '',
-            twitterTitle: '',
-            twitterDescription: '',
-            twitterImage: '',
-            favicon: '/reaper.webp',
-            ...data
+            metadata:{
+                clientSideProps:data.props?data.props:{},
+                title: 'Reaper website',
+                description: 'A website made with the reaper framework',
+                author: 'Damian Mostert',
+                keywords: '',
+                ogTitle: '',
+                ogDescription: '',
+                ogImage: '',
+                ogUrl: '',
+                twitterCard: '',
+                twitterTitle: '',
+                twitterDescription: '',
+                twitterImage: '',
+                favicon: '/reaper.webp',
+                ...data.metadata?data.metadata:{}
+            }
         });
     }
     for(let url of Object.keys(middleware)){
