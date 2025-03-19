@@ -25,7 +25,7 @@ module.exports = (app,server)=>async function(req,res,next){
         middleware[main_url] = ReaperCallback;
         input({
             Get:(name,url,ReaperCallback)=>Get(name,path.join(main_url,url),ReaperCallback),
-            Post:(name,url,ReaperCallback)=>Get(name,path.join(main_url,url),ReaperCallback),
+            Post:(name,url,ReaperCallback)=>Post(name,path.join(main_url,url),ReaperCallback),
             Middleware,
             Group,
         });
@@ -33,7 +33,7 @@ module.exports = (app,server)=>async function(req,res,next){
     const Group =(main_url,input)=>{
         input({
             Get:(name,url,ReaperCallback)=>Get(name,path.join(main_url,url),ReaperCallback),
-            Post:(name,url,ReaperCallback)=>Get(name,path.join(main_url,url),ReaperCallback),
+            Post:(name,url,ReaperCallback)=>Post(name,path.join(main_url,url),ReaperCallback),
             Middleware,
             Group,
         });
