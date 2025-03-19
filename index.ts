@@ -103,22 +103,30 @@ export interface ReaperRoutes {
 interface Device{
     
 }
-interface Event{
+interface Event<T>{
     user:any,
-    device:Device
+    device:Device,
+    Data:T
 }
-export class Socket<T>{
-    public events:{event:string,callback:(data:Event)=>void}[] = [];
-    on<T>(event:string,callback:(event:Event)=>void){
+type socketCallback<T>=(event:Event<T>)=>void;
+
+interface EventStorage<T>{event:string,callback:T}
+export class Socket<Funnle>{
+    public events:EventStorage<socketCallback<Funnle>>[] = [];
+    public ws:WebSocket;
+    async init(){
+
+    }
+    on<T>(event:string,callback:socketCallback<Funnle>){
         this.events.push({
             event,
             callback,
         })
     }
-    emit<T>(event:any,data:T){
-
+    emit(event:any,data:Funnle){
+        
     }
-    emitTo<T>(to:Device|any,event:string,data:T){
+    emitTo(to:Device|any,event:string,data:Funnle){
         
     }
 }
