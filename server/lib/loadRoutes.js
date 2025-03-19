@@ -39,8 +39,8 @@ module.exports = (app)=>async function(req,res,next){
             Socket
         });
     }
-    const Socket =(name,url,socket)=>{
-        const socket = app.sockets[`${socket}.js`];
+    const Socket =(name,url,_socket)=>{
+        //const socket = app.sockets[`${_socket}.js`];
     }
     routes({
         Get,

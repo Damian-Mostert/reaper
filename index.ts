@@ -101,17 +101,18 @@ export interface ReaperRoutes {
 }
 
 export class Socket{
-    constructor(){
+    public events:{event:string,callback:(data:T)=>void}[] = [];
+    on<T>(event:string,callback:(data:T)=>void){
+        this.events.push({
+            event,
+            callback,
+        })
+    }
+    emit<T>(event:any,data:T){
 
     }
-    on(){
-
-    }
-    emit(){
-
-    }
-    disconnect(){
-
+    emitTo<T>(user_id:string,event:any,data:T){
+        
     }
 }
 

@@ -14,6 +14,19 @@ export default function render(q:string,children:any){
     })
 }
 
+export function useSocket(name:string){
+    const emit = ()=>{
+
+    }
+    const on = ()=>{
+        
+    }
+    return {
+        emit,
+        on
+    }
+}
+
 export const call = async(name:string,data:any)=>{
 
 }
