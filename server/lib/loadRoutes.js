@@ -58,7 +58,7 @@ module.exports = (app,server)=>async function(req,res,next){
             script:name,
             clientSideProps:data.props?data.props:{},
             clientSideNames:{
-                sockets:Object.keys(app.sockets),
+                listeners:Object.keys(app.listeners),
                 apis
             },
             metadata:{                

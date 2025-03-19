@@ -2,7 +2,7 @@ const path = require("path")
 
 const controllerDir = path.join(process.cwd(), "./api/controllers");
 const middlewareDir = path.join(process.cwd(), "./api/middleware");
-const socketsDir = path.join(process.cwd(), "./api/events");
+const listenersDir = path.join(process.cwd(), "./api/events");
 const routesDir = path.join(process.cwd(), "./routes");
 const templateDir = path.join(process.cwd(), "./views");
 const seedersDir = path.join(process.cwd(), "./db/seeders");
@@ -21,5 +21,5 @@ module.exports = {
     seedersDir,
     servicesDir,
     mainFile,
-    socketsDir
+    listenersDir
 }

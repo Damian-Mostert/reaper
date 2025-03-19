@@ -15,7 +15,7 @@ const {
   migrationsDir,
   seedersDir,
   servicesDir,
-  socketsDir
+  listenersDir
 } = dirs;
 const tsConfigPath = path.join(process.cwd(), "tsconfig.json");
 async function build(files = [],sub,mode="client") {
@@ -81,7 +81,7 @@ module.exports = {
   server:async()=>{
     logger.log("info","Building server files");
     await processFiles(routesDir, async(files) =>await build(files,"routes/index","server"));
-    await processFiles(socketsDir, async(files) =>await build(files,"api/events","server"));  
+    await processFiles(listenersDir, async(files) =>await build(files,"api/events","server"));  
     await processFiles(controllerDir, async(files) =>await build(files,"api/controllers","server"));  
     await processFiles(servicesDir, async(files) => await build(files,"api/services","server"));
     await processFiles(middlewareDir, async(files) =>await build(files,"api/middleware","server"));

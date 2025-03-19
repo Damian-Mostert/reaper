@@ -9,15 +9,15 @@ const middleware = {};
 fs.readdirSync(path.join(process.cwd(),"./.reaper/out/api/middleware/",)).filter(name=>!name.endsWith("map")&&!name.endsWith("css")).forEach(controller=>{
   controllers[controller]= require(path.join(process.cwd(),"./.reaper/out/api/middleware/",controller)).default
 })
-const sockets = {};
+const listeners = {};
 fs.readdirSync(path.join(process.cwd(),"./.reaper/out/api/events/",)).filter(name=>!name.endsWith("map")&&!name.endsWith("css")).forEach(controller=>{
-  sockets[controller]= require(path.join(process.cwd(),"./.reaper/out/api/events/",controller)).default
+  listeners[controller]= require(path.join(process.cwd(),"./.reaper/out/api/events/",controller)).default
 })
 
 const APP = {
   routes:require(path.join(process.cwd(),"./.reaper/out/routes/index")).default,
   controllers,
-  sockets,
+  listeners,
   middleware,
   templates:fs.readdirSync(path.join(process.cwd(),"./views")).map(file=>file.replace(".tsx","").replace(".ts","").replace(".jsx","").replace(".js",""))
 };
