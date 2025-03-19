@@ -49,6 +49,10 @@ module.exports = (app,server)=>async function(req,res,next){
         res.render("index",{
             script:name,
             clientSideProps:data.props?data.props:{},
+            clientSideNames:{
+                sockets:{},
+                apis:build
+            },
             metadata:{                
                 title: 'Reaper website',
                 description: 'A website made with the reaper framework',

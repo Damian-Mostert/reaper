@@ -1,12 +1,20 @@
 <div id="reaper-client-side-props" style="display: none;">
     <%= JSON.stringify(clientSideProps) %>
 </div>
+<div id="reaper-client-side-names" style="display: none;">
+    <%= JSON.stringify(clientSideNames) %>
+</div>
 <script>
     (function() {
         const propsElement = document.getElementById("reaper-client-side-props");
         if (propsElement) {
             window.reaperClientSideProps = JSON.parse(propsElement.textContent);
             propsElement.remove()
+        }
+        const propsElement2 = document.getElementById("reaper-client-side-names");
+        if (propsElement2) {
+            window.reaperClientSideName = JSON.parse(propsElement2.textContent);
+            propsElement2.remove()
         }
     })();
 </script>

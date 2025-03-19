@@ -3,7 +3,7 @@
     <%- include('./lib/metadata.ejs', { metadata }) %>
     <body>
         <root></root>
-        <%- include('./lib/clientSideProps.ejs', { clientSideProps }) %>
+        <%- include('./lib/clientSideProps.ejs', { clientSideProps,clientSideNames }) %>
         <script src="/<%= script %>.js"></script>
         <link rel="stylesheet" href="/<%= script %>.css">
     </body>
