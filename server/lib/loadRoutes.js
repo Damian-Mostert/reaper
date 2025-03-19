@@ -49,7 +49,7 @@ module.exports = (app,server)=>async function(req,res,next){
         const apis = [];
         Object.keys(build).forEach(key=>{
             apis.push({
-                name:build[key].name,
+                name:key,
                 method:build[key].method,
                 url:build[key].url
             })
