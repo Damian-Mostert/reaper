@@ -1,6 +1,6 @@
 {
   "name": "rprcli",
-  "version": "0.1.35-base",
+  "version": "0.1.36-base",
   "bin": "./cli.js",
   "scripts": {
     "test": "echo \"test\""
