@@ -53,11 +53,23 @@ export class ReaperRequest{
         }
     }
 }
+export interface Metadata {
+    title?: string;
+    description?: string;
+    author?: string;
+    keywords?: string;
+    ogTitle?: string;
+    ogDescription?: string;
+    ogImage?: string;
+    ogUrl?: string;
+    twitterCard?: string;
+    twitterTitle?: string;
+    twitterDescription?: string;
+    twitterImage?: string;
+    favicon?: string;
+}
 type Template={
-    metadata?:{
-        title:string,
-        description:string
-    },
+    metadata?:Metadata,
     props?:{
         [key:string]:any
     }
