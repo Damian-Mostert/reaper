@@ -46,12 +46,20 @@ module.exports = (app,server)=>async function(req,res,next){
     });
 
     const renderTemplate =async (name,data={})=>{
+        const apis = [];
+        Object.keys(build).forEach(key=>{
+            apis.push({
+                name:build[key].name,
+                method:build[key].method,
+                url:build[key].url
+            })
+        })
         res.render("index",{
             script:name,
             clientSideProps:data.props?data.props:{},
             clientSideNames:{
-                sockets:{},
-                apis:build
+                sockets:Object.keys(app.sockets),
+                apis
             },
             metadata:{                
                 title: 'Reaper website',
