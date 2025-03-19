@@ -4,7 +4,7 @@ const WebSocket = require("ws");
 const logger = require("../utils/logger");
 const fs = require("fs")
 
-fs.unlinkSync(process.cwd(),"./reaper/out");
+fs.unlinkSync(path.join(process.cwd(),"./reaper/out"));
 
 module.exports = function newServer() {
     const app = express();
