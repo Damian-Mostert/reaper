@@ -1,10 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ReactDOM from "react-dom/client";
 
 export default function render(q:string,children:any){
         const elements = document.querySelectorAll(q);
         elements.forEach(el=>{
-        console.log("rendering",el)
         const root = ReactDOM.createRoot(el);
         //@ts-ignore
         root.render(<React.StrictMode>
@@ -14,24 +13,22 @@ export default function render(q:string,children:any){
 }
 
 export function useSocket<socketFunnle>(name:string){
-    const [events,setEvents] = useState<{name:string,callback:(data:socketFunnle)=>void}[]>([]);
+    
+
     const emit = (name:string,data:socketFunnle)=>{
 
     }
     const on = (name:string,c:(data:socketFunnle)=>void)=>{
-        setEvents((old)=>{
-            return [...old,{
-                name,callback:c
-            }]
-        })
+        useEffect(()=>{
+            
+        },[]);
     }
-    const clear = () =>{
-        setEvents([]);
-    }
+
+    
+
     return {
         emit,
         on,
-        clear
     }
 }
 
@@ -44,7 +41,7 @@ export function useApi<T, T2>(name: string) {
         async call(data?: T): Promise<T2> {
             return new Promise(async (resolve, reject) => {
                 try {
-                    let url = new URL(api.url);
+                    let url = new URL(`${window.location.protocol}${window.location.host}${api.url}`);
                     let config: RequestInit = {
                         method: api.method,
                         headers: {

@@ -7,16 +7,11 @@
 <script id="data-injection-script">
     (function() {
         const propsElement = document.getElementById("reaper-client-side-props");
-        if (propsElement) {
-            window.reaperClientSideProps = JSON.parse(propsElement.textContent);
-            propsElement.remove()
-        }
-        const propsElement2 = document.getElementById("reaper-client-side-names");
-        if (propsElement2) {
-            window.reaperClientSideNames = JSON.parse(propsElement2.textContent);
-            propsElement2.remove()
-        }
-
+        window.reaperClientSideProps = JSON.parse(propsElement.textContent);
+        propsElement.remove()
+        const namesElement = document.getElementById("reaper-client-side-names");
+        window.reaperClientSideNames = JSON.parse(namesElement.textContent);
+        namesElement.remove()
         const self = document.getElementById("data-injection-script");
         self.remove()
     })();
