@@ -100,9 +100,16 @@ export interface ReaperRoutes {
   Socket:(name:string,url:url,socket:`@${string}Socket`)=>void
 }
 
-export class Socket{
-    public events:{event:string,callback:(data:T)=>void}[] = [];
-    on<T>(event:string,callback:(data:T)=>void){
+interface Device{
+    
+}
+interface Event{
+    user:any,
+    device:Device
+}
+export class Socket<T>{
+    public events:{event:string,callback:(data:Event)=>void}[] = [];
+    on<T>(event:string,callback:(event:Event)=>void){
         this.events.push({
             event,
             callback,
@@ -111,7 +118,7 @@ export class Socket{
     emit<T>(event:any,data:T){
 
     }
-    emitTo<T>(user_id:string,event:any,data:T){
+    emitTo<T>(to:Device|any,event:string,data:T){
         
     }
 }
