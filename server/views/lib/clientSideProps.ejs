@@ -1,3 +1,12 @@
+<div id="reaper-client-side-props" style="display: none;">
+    <%= JSON.stringify(clientSideProps) %>
+</div>
 <script>
-    window.reaperClientSideProps = <%= JSON.stringify(clientSideProps) %>;
+    (function() {
+        const propsElement = document.getElementById("reaper-client-side-props");
+        if (propsElement) {
+            window.reaperClientSideProps = JSON.parse(propsElement.textContent);
+            propsElement.remove()
+        }
+    })();
 </script>
