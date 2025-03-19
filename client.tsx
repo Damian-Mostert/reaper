@@ -14,11 +14,11 @@ export default function render(q:string,children:any){
     })
 }
 
-export function useSocket(name:string){
-    const emit = ()=>{
+export function useSocket<socketFunnle>(name:string){
+    const emit = (name:string,data:socketFunnle)=>{
 
     }
-    const on = ()=>{
+    const on = (name:string,c:(data:socketFunnle)=>void)=>{
         
     }
     return {

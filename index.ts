@@ -101,7 +101,7 @@ export interface ReaperRoutes {
 }
 
 interface Device{
-    
+    id:string
 }
 interface Event<T>{
     user:any,
@@ -124,7 +124,7 @@ export class Socket<Funnle>{
         })
     }
     emit(event:any,data:Funnle){
-        
+
     }
     emitTo(to:Device|any,event:string,data:Funnle){
         
