@@ -22,6 +22,7 @@ module.exports = function newServer() {
     server.on("upgrade", (req, socket, head) => {
         wss.handleUpgrade(req, socket, head, (ws) => {
             ws.send("connected");
+
         });
     });
     // Gracefully close WebSocket server when the HTTP server is closed

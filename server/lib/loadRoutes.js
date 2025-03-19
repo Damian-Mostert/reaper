@@ -28,7 +28,6 @@ module.exports = (app,server)=>async function(req,res,next){
             Post:(name,url,ReaperCallback)=>Get(name,path.join(main_url,url),ReaperCallback),
             Middleware,
             Group,
-            Socket
         });
     }
     const Group =(main_url,input)=>{
@@ -37,7 +36,6 @@ module.exports = (app,server)=>async function(req,res,next){
             Post:(name,url,ReaperCallback)=>Get(name,path.join(main_url,url),ReaperCallback),
             Middleware,
             Group,
-            Socket
         });
     }
     routes({
