@@ -10,8 +10,8 @@ fs.readdirSync(path.join(process.cwd(),"./.reaper/out/api/middleware/",)).filter
   controllers[controller]= require(path.join(process.cwd(),"./.reaper/out/api/middleware/",controller)).default
 })
 const sockets = {};
-fs.readdirSync(path.join(process.cwd(),"./.reaper/out/api/sockets/",)).filter(name=>!name.endsWith("map")&&!name.endsWith("css")).forEach(controller=>{
-  sockets[controller]= require(path.join(process.cwd(),"./.reaper/out/api/sockets/",controller)).default
+fs.readdirSync(path.join(process.cwd(),"./.reaper/out/api/events/",)).filter(name=>!name.endsWith("map")&&!name.endsWith("css")).forEach(controller=>{
+  sockets[controller]= require(path.join(process.cwd(),"./.reaper/out/api/events/",controller)).default
 })
 
 const APP = {

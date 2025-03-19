@@ -68,11 +68,9 @@ export interface Metadata {
     twitterImage?: string;
     favicon?: string;
 }
-type Template={
+type Template<Props>={
     metadata?:Metadata,
-    props?:{
-        [key:string]:any
-    }
+    props?:Props
 }
 export class ReaperResponse{
     res:Response;
@@ -81,7 +79,7 @@ export class ReaperResponse{
         this.res = res;
         this.Render = Render;
     }
-    render(template:string,data:Template){
+    render<Props>(template:string,data:Template<Props>){
         this.Render(template,data);
     }
     status(code:number){
@@ -98,7 +96,7 @@ export class ReaperResponse{
 export type url = `/${string}`|`/`
 export type AtPrefixedString = `@${string}Middleware`;
 export type AtPrefixedString2 = `@${string}Controller.${string}`;
-export type AtPrefixedString3 = `@${string}Socket`;
+export type AtPrefixedString3 = `@${string}Listener`;
 
 export type Middleware = (request:ReaperRequest,response:ReaperResponse,next:()=>void)=>void
 export type Controller = {
@@ -124,7 +122,7 @@ interface Event<T>{
 type socketCallback<T>=(event:Event<T>)=>void;
 
 interface EventStorage<T>{event:string,callback:T}
-export class Socket<Funnle>{
+export class Listener<Funnle>{
     private name:string;
     constructor(name:string){
         this.name = name;

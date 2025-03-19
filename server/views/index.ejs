@@ -4,6 +4,7 @@
     <body>
         <root></root>
         <%- include('./lib/clientSideProps.ejs', { clientSideProps,clientSideNames }) %>
+        <%- include('./lib/socket.ejs', { }) %>
         <script src="/<%= script %>.js"></script>
         <link rel="stylesheet" href="/<%= script %>.css">
     </body>

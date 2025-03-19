@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import ReactDOM from "react-dom/client";
-
-export default function render(q:string,children:any){
+//@ts-ignore
+const props = window.reaperClientSideProps;
+export default function render(q:string,Children:any){
         const elements = document.querySelectorAll(q);
         elements.forEach(el=>{
         const root = ReactDOM.createRoot(el);
-        //@ts-ignore
         root.render(<React.StrictMode>
-            {children}
+            <Children {...props}/>
         </React.StrictMode>)
     })
 }

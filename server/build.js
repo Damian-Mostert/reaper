@@ -86,7 +86,7 @@ module.exports = {
   server:async()=>{
     logger.log("info","Building server files");
     await processFiles(routesDir, async(files) =>await build(files,"routes/index","server"));
-    await processFiles(socketsDir, async(files) =>await build(files,"api/sockets","server"));  
+    await processFiles(socketsDir, async(files) =>await build(files,"api/events","server"));  
     await processFiles(controllerDir, async(files) =>await build(files,"api/controllers","server"));  
     await processFiles(servicesDir, async(files) => await build(files,"api/services","server"));
     await processFiles(middlewareDir, async(files) =>await build(files,"api/middleware","server"));
