@@ -80,17 +80,22 @@ module.exports = {
   //client side builds
   client:async()=>{
     logger.log("info","Building client files");
+    writeTemplate.clear();
     if(fs.existsSync(path.join(process.cwd(),"./.reaper/out/templates")))fs.rmSync(path.join(process.cwd(),"./.reaper/out/templates",),{recursive:true});
     //MAKE ALL TEMPLATES
     await processFiles(`${path.join(appDir,"./views")}`, async(files) =>{
       for(const file of files){
+        const name = path.basename(file);
         writeTemplate({
-          name:path.basename(file),
-          view:path.join(appDir,"./views",path.basename(file)),
+          name,
+          view:path.join(appDir,"./views",name),
           layout:path.join(appDir,"./layout")
         });
       }
-      await processFiles(path.join(appDir,"../.reaper/temp/views/"), async(files) =>await build(files,"templates","client"));
+      await processFiles(path.join(appDir,"../.reaper/temp/views/"), async(files) =>{
+        return await build(files,"templates","client")
+      });
+      logger.log("info","client built.");
     });
   },
   //server side builds
