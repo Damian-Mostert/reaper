@@ -22,7 +22,7 @@ export const runMigrations = async (dir: string) => {
         });
 
         for (const file of migrationFiles) {
-            const migration = require(file).default;
+            const migration = await require(file).default;
             migration("up")
             await migrations.query().create({ batch: lastBatch + 1, name: file.replace(migrationsDirectory, "") });
         }

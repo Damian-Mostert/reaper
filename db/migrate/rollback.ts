@@ -9,8 +9,9 @@ export const rollbackMigrations = async (dir: string) => {
         const lastBatch = migrationRecords[migrationRecords.length - 1]?.batch ?? 0;
         const lastBatchRecords = migrationRecords.filter(r => r.batch === lastBatch);
         for (const file of lastBatchRecords.map(r=>path.join(dir,r.name))) {
-            const migration = require(file).default;
-            migration("down")
+            console.log(file)
+            const migration = require(file.replace(".ts",".js"));
+            (await migration.default)("down");
         }
         await migrations.query().where("batch", "=", lastBatch).delete();
         console.log("ReaperAll applicable migrations rolled back successfully!");
