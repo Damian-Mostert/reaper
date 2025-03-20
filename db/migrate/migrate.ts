@@ -8,7 +8,7 @@ export const runMigrations = async (dir: string) => {
         const migrationRecords = await getRecords();
         const lastBatch = migrationRecords[migrationRecords.length - 1]?.batch ?? 0;
         const lastBatchRecords = migrationRecords.filter(r => r.batch === lastBatch);
-        const migrationsDirectory = path.join(__dirname, dir);
+        const migrationsDirectory = path.join(dir);
         const files = fs.readdirSync(migrationsDirectory);
         const migrationFiles = files
             .filter(file => file.endsWith('.ts'))

@@ -113,6 +113,7 @@ module.exports = {
   //migrations build
   migrations:async()=>{
     logger.log("info","Building migrations files");
+    await processFiles(path.join(process.cwd(),"./db/migrations"), async(files) =>await build(files,"migrations","server"));  
     await processFiles(path.join(__dirname,"../db/migrate"), async(files) =>await build(files,"migrate","server"));  
     logger.log("info","migrations built.");
   },

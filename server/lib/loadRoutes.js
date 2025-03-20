@@ -80,7 +80,7 @@ module.exports = (app,server)=>async function(req,res,next){
         });
     }
     for(let url of Object.keys(middleware)){
-        const {isValid,params} = isValidUrl(req.url,url);
+        const {isValid,params} = isValidUrl(req.url,`${url}/[...middlewareRoute]`);
         if(isValid){
             const middlewareName = middleware[url];
             var allow = false;
