@@ -4,7 +4,7 @@ const logger = require("../utils/logger");
 const port = process.env.PORT?process.env.PORT : 3000;
 const routes = require("./routes")
 module.exports = function newServer() {
-    const app = routes.___app;
+    const app = routes;
     const server = app.listen(port, () => {
         logger.log("success", `Server is running on http://localhost:${port}.`);
     });

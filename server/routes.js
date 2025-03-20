@@ -11,5 +11,4 @@ app.use(loadRoutes(APP));
 app.use("/__reaper_generated",express.static(path.join(process.cwd(), ".reaper/out/templates")));
 app.use(express.static(path.join(__dirname, "./public")));
 app.use(express.static(path.join(process.cwd(), "public")));
-module.exports = (req, res, next) => app.handler(req, res, next);
-module.exports.___app = app; 
+module.exports = app
