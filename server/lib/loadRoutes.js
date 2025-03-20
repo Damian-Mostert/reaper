@@ -83,13 +83,18 @@ module.exports = (app,server)=>async function(req,res,next){
         const {isValid,params} = isValidUrl(req.url,url);
         if(isValid){
             const middlewareName = middleware[url];
+            var allow = false;
+            var next = ()=>{
+                allow = true;
+            }
             app.middleware[`${middlewareName}.js`](new ReaperRequest(req,params),new ReaperResponse(res,renderTemplate),next)
+            if(!allow)return;
         }
     }
     var Params = {};
     const CALLBACK = Object.keys(build).find(name=>{
         const item = build[name];        
-        const {isValid,params} = isValidUrl(req.url,url);
+        const {isValid,params} = isValidUrl(req.url,item.url);
         Params = params;
         switch(item.method == req.method && isValid){        
             case true:
