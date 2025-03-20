@@ -20,6 +20,7 @@ const scripts = {
   "init": `node ${__dirname}/commands/init.js`,
   "build": `npx env-cmd -f "${path.join(process.cwd(), "./.env")}" node ${path.join(__dirname, "commands/build.js")}`,
   "dev": `npx env-cmd -f "${path.join(process.cwd(), "./.env")}" node ${path.join(__dirname, "commands/dev.js")}`,
+  "vercel": `npx env-cmd -f "${path.join(process.cwd(), "./.env")}" node ${path.join(__dirname, "commands/vercel.js")}`,
   "start": `npx env-cmd -f "${path.join(process.cwd(), "./.env")}" node ${path.join(__dirname, "commands/start.js")}`,
 };
 
