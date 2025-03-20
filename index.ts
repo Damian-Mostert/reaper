@@ -42,7 +42,10 @@ export class ReaperRequest{
         };
     };
     auth:Auth
-    constructor(req:Request){
+    params:{[key:string]:any}
+
+    constructor(req:Request,params:{[key:string]:any}){
+        this.params = params;
         this.auth = new Auth(req);
         this.req = req;
         if(req.method == "GET"){

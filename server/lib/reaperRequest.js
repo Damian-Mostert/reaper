@@ -28,7 +28,9 @@ module.exports = class ReaperRequest{
         };
     };
     auth
-    constructor(req){
+    params = {}
+    constructor(req,params){
+        this.params = params
         this.auth = new Auth(req);
         this.req = req;
         if(req.method == "GET"){

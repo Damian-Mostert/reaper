@@ -80,14 +80,18 @@ module.exports = (app,server)=>async function(req,res,next){
         });
     }
     for(let url of Object.keys(middleware)){
-        if(isValidUrl(req.url,url)){
+        const {isValid,params} = isValidUrl(req.url,url);
+        if(isValid){
             const middlewareName = middleware[url];
-            app.middleware[`${middlewareName}.js`](new ReaperRequest(req),new ReaperResponse(res,renderTemplate),next)
+            app.middleware[`${middlewareName}.js`](new ReaperRequest(req,params),new ReaperResponse(res,renderTemplate),next)
         }
     }
+    var Params = {};
     const CALLBACK = Object.keys(build).find(name=>{
         const item = build[name];        
-        switch(item.method == req.method && isValidUrl(req.url,item.url)){        
+        const {isValid,params} = isValidUrl(req.url,url);
+        Params = params;
+        switch(item.method == req.method && isValid){        
             case true:
                 return true;
             case false:
@@ -95,25 +99,45 @@ module.exports = (app,server)=>async function(req,res,next){
         }
     });
     if(CALLBACK){
+        const params = Params;
         const routstr = build[CALLBACK].callback;
         const controllerName = routstr.split("@")[1].split(".")[0];
         const controllerSubName = routstr.split("@")[1].split(".")[1];
-        return app.controllers[`${controllerName}.js`][controllerSubName](new ReaperRequest(req),new ReaperResponse(res,renderTemplate))
+        return app.controllers[`${controllerName}.js`][controllerSubName](new ReaperRequest(req,params),new ReaperResponse(res,renderTemplate))
     };
     next();
 }
 const isValidUrl = (url_in, base_url) => {
-    if (!url_in || !base_url) return false;
+    if (!url_in || !base_url) return { isValid: false, params: {} };
+    
     try {
         const cleanUrl = new URL(url_in, "http://localhost").pathname;
         const cleanBase = new URL(base_url, "http://localhost").pathname;
-        if (cleanUrl === cleanBase) return true;
-        if (base_url.endsWith("/*")) {
-            const trimmedBase = cleanBase.replace(/\/\*$/, "");
-            return cleanUrl.startsWith(trimmedBase);
+
+        // Convert paths to segments
+        const urlSegments = cleanUrl.split("/").filter(Boolean);
+        const baseSegments = cleanBase.split("/").filter(Boolean);
+
+        let params = {};
+
+        for (let i = 0; i < baseSegments.length; i++) {
+            if (baseSegments[i].startsWith("[...")) {
+                // Wildcard parameter - capture everything after this segment
+                const paramName = baseSegments[i].slice(4, -1); // Extract parameter name
+                params[paramName] = urlSegments.slice(i).join("/");
+                return { isValid: true, params };
+            }
+            if (baseSegments[i].startsWith("[") && baseSegments[i].endsWith("]")) {
+                // Single dynamic parameter - extract value
+                const paramName = baseSegments[i].slice(1, -1);
+                params[paramName] = urlSegments[i];
+            } else if (urlSegments[i] !== baseSegments[i]) {
+                return { isValid: false, params: {} };
+            }
         }
-        return false;
+
+        return urlSegments.length === baseSegments.length ? { isValid: true, params } : { isValid: false, params: {} };
     } catch (err) {
-        return false;
+        return { isValid: false, params: {} };
     }
 };
