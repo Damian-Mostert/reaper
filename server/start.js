@@ -15,7 +15,7 @@ module.exports = function newServer() {
     app.set("views", path.join(__dirname, "views"));
     app.use(loadRoutes(APP));
     app.use(express.static(path.join(process.cwd(), ".reaper/out/templates")));
-    app.use(express.static(path.join(__dirname, "./public")));
+    app.use("/__reaper_generated",express.static(path.join(__dirname, "./public")));
     app.use(express.static(path.join(process.cwd(), "public")));
     const server = app.listen(port, () => {
         logger.log("success", `Server is running on http://localhost:${port}.`);
