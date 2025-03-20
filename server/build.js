@@ -11,13 +11,13 @@ const {
   middlewareDir,
   routesDir,
   appDir,
-//  modelsDir,
-  migrationsDir,
   seedersDir,
   servicesDir,
   listenersDir
 } = dirs;
+
 const tsConfigPath = path.join(process.cwd(), "tsconfig.json");
+
 async function build(files = [],sub,mode="client") {
   const tsConfig = JSON.parse(fs.readFileSync(tsConfigPath, "utf8"));
   const aliasPaths = tsConfig.compilerOptions?.paths || {};
@@ -77,6 +77,11 @@ const processFiles =async (dirPath, processCallback) => {
 };
 
 module.exports = {
+  vercel:async()=>{
+    await module.exports.client();
+    await module.exports.server();
+    await build([path.join(process.cwd(),"./vercel")],"vercel","server")
+  },
   //client side builds
   client:async()=>{
     logger.log("info","Building client files");
@@ -109,9 +114,6 @@ module.exports = {
     await processFiles(servicesDir, async(files) => await build(files,"api/services","server"));
     await processFiles(middlewareDir, async(files) =>await build(files,"api/middleware","server"));
     logger.log("info","server built.");
-    if (fs.existsSync(path.join(__dirname,"./vercel.js"))) {
-      fs.copyFileSync(path.join(__dirname,"./vercel.js"),path.join( process.cwd(),".reaper/vercel.js"));
-    } 
   },
   //migrations build
   migrations:async()=>{
