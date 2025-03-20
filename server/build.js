@@ -77,12 +77,10 @@ const processFiles =async (dirPath, processCallback) => {
 };
 
 module.exports = {
-  clear:()=>{
-    if(fs.existsSync(path.join(process.cwd(),"./.reaper/out")))fs.rmSync(path.join(process.cwd(),"./.reaper/out",),{recursive:true});
-  },
   //client side builds
   client:async()=>{
     logger.log("info","Building client files");
+    if(fs.existsSync(path.join(process.cwd(),"./.reaper/out/templates")))fs.rmSync(path.join(process.cwd(),"./.reaper/out/templates",),{recursive:true});
     //MAKE ALL TEMPLATES
     await processFiles(`${path.join(appDir,"./views")}`, async(files) =>{
       for(const file of files){
@@ -98,6 +96,11 @@ module.exports = {
   //server side builds
   server:async()=>{
     logger.log("info","Building server files");
+    if(fs.existsSync(path.join(process.cwd(),"./.reaper/out/routes")))fs.rmSync(path.join(process.cwd(),"./.reaper/out/routes",),{recursive:true});
+    if(fs.existsSync(path.join(process.cwd(),"./.reaper/out/events")))fs.rmSync(path.join(process.cwd(),"./.reaper/out/events",),{recursive:true});
+    if(fs.existsSync(path.join(process.cwd(),"./.reaper/out/controllers")))fs.rmSync(path.join(process.cwd(),"./.reaper/out/controllers",),{recursive:true});
+    if(fs.existsSync(path.join(process.cwd(),"./.reaper/out/middleware")))fs.rmSync(path.join(process.cwd(),"./.reaper/out/middleware",),{recursive:true});
+
     await processFiles(routesDir, async(files) =>await build(files,"routes/index","server"));
     await processFiles(listenersDir, async(files) =>await build(files,"api/events","server"));  
     await processFiles(controllerDir, async(files) =>await build(files,"api/controllers","server"));  
@@ -108,12 +111,14 @@ module.exports = {
   //migrations build
   migrations:async()=>{
     logger.log("info","Building migrations files");
+    if(fs.existsSync(path.join(process.cwd(),"./.reaper/out/migrations")))fs.rmSync(path.join(process.cwd(),"./.reaper/out/migrations",),{recursive:true});
     await processFiles(migrationsDir, async(files) =>await build(files,"migrations","server"));  
     logger.log("info","migrations built.");
   },
   //seeders build
   seeders:async()=>{
     logger.log("info","Building seeder files");
+    if(fs.existsSync(path.join(process.cwd(),"./.reaper/out/seeders")))fs.rmSync(path.join(process.cwd(),"./.reaper/out/seeders",),{recursive:true});
     await processFiles(seedersDir, async(files) =>await build(files,"seeders","server"));  
     logger.log("info","seeders built.");
   }
