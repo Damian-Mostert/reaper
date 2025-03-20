@@ -96,11 +96,8 @@ module.exports = {
   //server side builds
   server:async()=>{
     logger.log("info","Building server files");
+    if(fs.existsSync(path.join(process.cwd(),"./.reaper/out/api")))fs.rmSync(path.join(process.cwd(),"./.reaper/out/api",),{recursive:true});
     if(fs.existsSync(path.join(process.cwd(),"./.reaper/out/routes")))fs.rmSync(path.join(process.cwd(),"./.reaper/out/routes",),{recursive:true});
-    if(fs.existsSync(path.join(process.cwd(),"./.reaper/out/events")))fs.rmSync(path.join(process.cwd(),"./.reaper/out/events",),{recursive:true});
-    if(fs.existsSync(path.join(process.cwd(),"./.reaper/out/controllers")))fs.rmSync(path.join(process.cwd(),"./.reaper/out/controllers",),{recursive:true});
-    if(fs.existsSync(path.join(process.cwd(),"./.reaper/out/middleware")))fs.rmSync(path.join(process.cwd(),"./.reaper/out/middleware",),{recursive:true});
-
     await processFiles(routesDir, async(files) =>await build(files,"routes/index","server"));
     await processFiles(listenersDir, async(files) =>await build(files,"api/events","server"));  
     await processFiles(controllerDir, async(files) =>await build(files,"api/controllers","server"));  
