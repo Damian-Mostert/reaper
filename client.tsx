@@ -13,7 +13,7 @@ export default function render(q:string,Children:any){
     })
 }
 
-export function useSocket<socketFunnle>(name:string){
+export function useListener<socketFunnle>(name:string){
     const emit = (name:string,data:socketFunnle)=>{
 
     }
