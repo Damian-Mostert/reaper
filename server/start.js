@@ -1,22 +1,10 @@
-const express = require("express");
-const path = require("path");
+
 const WebSocket = require("ws");
 const logger = require("../utils/logger");
-const fs = require("fs")
-
-
+const port = process.env.PORT?process.env.PORT : 3000;
+const routes = require("./routes")
 module.exports = function newServer() {
-    const app = express();
-    const port = 3000;
-    logger.log("loading", "Starting server...");
-    const loadRoutes = require("rprcli/server/lib/loadRoutes");
-    const APP = require("rprcli/server/lib/load");
-    app.set("view engine", "ejs");
-    app.set("views", path.join(__dirname, "views"));
-    app.use(loadRoutes(APP));
-    app.use(express.static(path.join(process.cwd(), ".reaper/out/templates")));
-    app.use("/__reaper_generated",express.static(path.join(__dirname, "./public")));
-    app.use(express.static(path.join(process.cwd(), "public")));
+    const app = routes.___app;
     const server = app.listen(port, () => {
         logger.log("success", `Server is running on http://localhost:${port}.`);
     });
@@ -27,15 +15,12 @@ module.exports = function newServer() {
 
         });
     });
-    // Gracefully close WebSocket server when the HTTP server is closed
     server.on("close", () => {
         logger.log("info", "Server and WebSockets closed.");
     });
-
     const closeWebsockets = ()=>{
         wss.clients.forEach(client => client.terminate()); // Force-close all WebSocket clients
         wss.close();
     }
-
     return{ server, closeWebsockets };
 };
