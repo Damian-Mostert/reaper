@@ -11,7 +11,7 @@ export const runMigrations = async (dir: string) => {
         const migrationsDirectory = path.join(dir);
         const files = fs.readdirSync(migrationsDirectory);
         const migrationFiles = files
-            .filter(file => file.endsWith('.ts'))
+            .filter(file => file.endsWith('.js'))
             //@ts
             .filter(fileName => !lastBatchRecords.find(({ name }) => path.join(migrationsDirectory, name) === path.join(migrationsDirectory, fileName)))
             .map(file => path.join(migrationsDirectory, file));
@@ -22,7 +22,7 @@ export const runMigrations = async (dir: string) => {
         });
 
         for (const file of migrationFiles) {
-            const migration = await (await import(file)).default;
+            const migration = require(file).default;
             migration("up")
             await migrations.query().create({ batch: lastBatch + 1, name: file.replace(migrationsDirectory, "") });
         }

@@ -9,7 +9,7 @@ export const rollbackMigrations = async (dir: string) => {
         const lastBatch = migrationRecords[migrationRecords.length - 1]?.batch ?? 0;
         const lastBatchRecords = migrationRecords.filter(r => r.batch === lastBatch);
         for (const file of lastBatchRecords.map(r=>path.join(dir,r.name))) {
-            const migration = await (await import(file)).default;
+            const migration = require(file).default;
             migration("down")
         }
         await migrations.query().where("batch", "=", lastBatch).delete();
