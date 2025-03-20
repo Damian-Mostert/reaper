@@ -11,9 +11,12 @@ const userController:Controller={
         }
     },
     async logout(request,response){
+//        request.user.logout();
 
     },
     async login(request,response){
+        response.json({amount:10})
+//        request.user.login();
 
     },
     async register(request,response){

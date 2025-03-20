@@ -5,7 +5,8 @@ export default function ApiRoutes({
     Middleware,
     Group,
 }:ReaperRoutes) {
-    Post("login","/login","@userController.login")
+    Post("test","/login","@userController.login")
+//    Post("login","/login","@userController.login")
     Middleware("/auth","@authMiddleware",({
         Post,
     }:ReaperRoutes)=>{

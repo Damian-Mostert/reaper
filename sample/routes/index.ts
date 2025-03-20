@@ -1,18 +1,15 @@
 import { ReaperRoutes } from "rprcli";
-import ApiRoutes from "./api/index";
+import ApiRoutes from "./api";
 
 export default function MainRoutes({
     Get,
     Post,
     Middleware,
     Group,
-    Socket
 }:ReaperRoutes) {
-    //socket
-    Socket("testSocket","/test","@testSocket");
-    //api
+    //api's
     Group("/api",ApiRoutes)
-    ///Pages
+    ///pages
     Get("home-page","/","@pagesController.home")
     Get("login-page","/login","@pagesController.login")
     Get("register-page","/register","@pagesController.register");

@@ -5,13 +5,13 @@ const tailwindPlugin = require("esbuild-plugin-tailwindcss");
 const fs = require("fs")
 const dirs = require("rprcli/server/config/dirs");
 const logger = require("rprcli/utils/logger");
-if(fs.existsSync(path.join(process.cwd(),"./.reaper/out")))fs.rmdirSync(path.join(process.cwd(),"./.reaper/out",),{recursive:true});
+if(fs.existsSync(path.join(process.cwd(),"./.reaper/out")))fs.rmSync(path.join(process.cwd(),"./.reaper/out",),{recursive:true});
 const {
   controllerDir,
   middlewareDir,
   routesDir,
   templateDir,
-  modelsDir,
+//  modelsDir,
   migrationsDir,
   seedersDir,
   servicesDir,

@@ -13,6 +13,7 @@
         socket.onclose = function () {
             console.log("WebSocket connection closed.");
         };
+        window.socket = socket;
         document.getElementById("reaper-socket-script")?.remove();
     })();
 </script>
