@@ -94,66 +94,6 @@ export function useNav(states: string[]) {
     };
 }
 
-export function useViews() {
-  const [currentRoute, setCurrentRoute] = useState(window.location.pathname);
-
-  // Function to update the script and stylesheet
-  const updateResources = (script: string) => {
-    // Remove existing script and stylesheet elements
-    const existingScript = document.getElementById('root-script');
-    const existingStyles = document.getElementById('root-styles');
-
-    if (existingScript) {
-      existingScript.remove();
-    }
-
-    if (existingStyles) {
-      existingStyles.remove();
-    }
-
-    // Create and append new script tag
-    const scriptElement = document.createElement('script');
-    scriptElement.id = 'root-script';
-    scriptElement.src = `/${script}.js`;
-    document.head.appendChild(scriptElement);
-
-    // Create and append new stylesheet link tag
-    const linkElement = document.createElement('link');
-    linkElement.id = 'root-styles';
-    linkElement.rel = 'stylesheet';
-    linkElement.href = `/${script}.css`;
-    document.head.appendChild(linkElement);
-  };
-
-  useEffect(() => {
-    // Update resources when route changes
-    const scriptName = currentRoute.substring(1) || 'default'; // Default to 'default' if no route
-    updateResources(scriptName);
-
-    // Optional: Listen for route changes (if using window.history or React Router)
-    const onPopState = () => {
-      setCurrentRoute(window.location.pathname);
-    };
-
-    window.addEventListener('popstate', onPopState);
-
-    return () => {
-      window.removeEventListener('popstate', onPopState);
-    };
-  }, [currentRoute]);
-
-  // Method to change the route and trigger script update
-  const navigate = (newRoute: string) => {
-    setCurrentRoute(newRoute);
-    window.history.pushState(null, '', newRoute);
-  };
-
-  return {
-    currentRoute,
-    navigate,
-  };
-}
-
 export async function loadApi<T, T2>(name: string, data?: T): Promise<T2> {
     //@ts-ignore
     const api = window.reaperClientSideNames.apis.find((n: any) => n.name === name);
@@ -177,14 +117,26 @@ export async function loadApi<T, T2>(name: string, data?: T): Promise<T2> {
     }
 
     return fetch(url.toString(), config)
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error(`API request failed with status: ${response.status}`);
-            }
+    .then(async (response) => {
+        if (!response.ok) {
+            throw new Error(`API request failed with status: ${response.status}`);
+        }
+
+        const contentType = response.headers.get("content-type");
+
+        if (contentType?.includes("application/json")) {
             return response.json();
-        })
-        .catch((error) => {
-            console.error(`Error calling API ${name}:`, error);
-            throw error;
-        });
+        } else if (contentType?.includes("text/plain")) {
+            return response.text();
+        } else if (contentType?.includes("application/octet-stream")) {
+            return response.blob(); // Handle binary data
+        } else {
+            throw new Error(`Unsupported response type: ${contentType}`);
+        }
+    })
+    .catch((error) => {
+        console.error(`Error calling API ${name}:`, error);
+        throw error;
+    });
+
 }
