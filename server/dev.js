@@ -1,6 +1,7 @@
 const build = require("./build");
 const start = require("./start");
 const chokidar = require("chokidar");
+const {reloadApp} = require("rprcli/server/lib/load");
 
 module.exports = () => {
     const cwd = process.cwd();
@@ -10,6 +11,7 @@ module.exports = () => {
     const DEBOUNCE_DELAY = 500;
 
     const restart = async () => {
+        await reloadApp();
         if (server) {
             await new Promise((resolve, reject) => {
                 sockets()

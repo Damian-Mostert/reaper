@@ -3,8 +3,9 @@ const WebSocket = require("ws");
 const logger = require("../utils/logger");
 const port = process.env.PORT?process.env.PORT : 3000;
 const routes = require("./routes")
-module.exports = function newServer() {
-    const app = routes;
+module.exports = function newServer(APP) {
+    if(!APP)APP = require("./lib/load").APP;
+    const app = routes(APP);
     const server = app.listen(port, () => {
         logger.log("success", `Server is running on http://localhost:${port}.`);
     });
