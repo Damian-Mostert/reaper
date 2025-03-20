@@ -1,4 +1,4 @@
-const logger = require("../utils/logger")
+const logger = require("rprcli/utils/logger")
 const express = require("express");
 const path = require("path");
 const app = express();

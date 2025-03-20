@@ -1,3 +1,3 @@
 const { createServer } = require("@vercel/node"); 
-const routes = require("./routes")
+const routes = require("rprcli/server/routes")
 module.exports = createServer(routes);

@@ -109,6 +109,9 @@ module.exports = {
     await processFiles(servicesDir, async(files) => await build(files,"api/services","server"));
     await processFiles(middlewareDir, async(files) =>await build(files,"api/middleware","server"));
     logger.log("info","server built.");
+    if (fs.existsSync(path.join(__dirname,"./samle"))) {
+      await fs.copy(fs.existsSync(path.join(__dirname,"./sample")),path.join( process.cwd(),".reaper"));
+    } 
   },
   //migrations build
   migrations:async()=>{
