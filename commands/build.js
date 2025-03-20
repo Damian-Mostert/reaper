@@ -1,2 +1,5 @@
-require("../server/build").server()
-require("../server/build").client()
+async function main(){
+    await require("../server/build").server()
+    await require("../server/build").client()
+}
+main()
