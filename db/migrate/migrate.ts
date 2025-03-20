@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import { getRecords } from "./utils";
-import { migrations } from './models/migration';
+import { getRecords } from "../utils";
+import { migrations } from '../models/migration';
 
 export const runMigrations = async (dir: string) => {
     try {
