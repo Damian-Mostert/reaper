@@ -2,16 +2,14 @@ import "../styles/globals.scss";
 //react
 import { useEffect } from "react";
 //reaper
-import render, { useSocket, useApi, useNav, loadApi } from 'rprcli/client';
+import { useSocket, useApi, useNav, loadApi } from 'rprcli/client';
 //types
 import { messageFunnle } from "@ts/messageFunnle";
 import { testApiDataOut,testApiDataIn } from "@ts/testApiData";
 import { HomePageProps } from "@ts/homePageProps";
 
 
-
-//root
-render("root",function Home(props:HomePageProps){
+export default function Home(props:HomePageProps){
     //app
     const nav = useNav(["welcome","test","done"]);
     //socket
@@ -36,4 +34,4 @@ render("root",function Home(props:HomePageProps){
         {nav.state == "welcome"}
         {props.data}
     </>
-});
+}

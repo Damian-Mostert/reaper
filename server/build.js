@@ -5,7 +5,6 @@ const tailwindPlugin = require("esbuild-plugin-tailwindcss");
 const fs = require("fs")
 const dirs = require("rprcli/server/config/dirs");
 const logger = require("rprcli/utils/logger");
-if(fs.existsSync(path.join(process.cwd(),"./.reaper/out")))fs.rmSync(path.join(process.cwd(),"./.reaper/out",),{recursive:true});
 const {
   controllerDir,
   middlewareDir,
@@ -79,6 +78,7 @@ module.exports = {
   },
   //server side builds
   server:async()=>{
+    if(fs.existsSync(path.join(process.cwd(),"./.reaper/out")))fs.rmSync(path.join(process.cwd(),"./.reaper/out",),{recursive:true});
     logger.log("info","Building server files");
     await processFiles(routesDir, async(files) =>await build(files,"routes/index","server"));
     await processFiles(listenersDir, async(files) =>await build(files,"api/events","server"));  
