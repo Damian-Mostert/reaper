@@ -19,6 +19,6 @@ const APP = {
   controllers,
   listeners,
   middleware,
-  templates:fs.readdirSync(path.join(process.cwd(),"./views")).map(file=>file.replace(".tsx","").replace(".ts","").replace(".jsx","").replace(".js",""))
+  templates:fs.readdirSync(path.join(process.cwd(),"./app/views")).map(file=>file.replace(".tsx","").replace(".ts","").replace(".jsx","").replace(".js",""))
 };
 module.exports = APP;

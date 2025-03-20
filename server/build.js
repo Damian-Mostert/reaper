@@ -87,14 +87,12 @@ module.exports = {
     await processFiles(`${path.join(appDir,"./views")}`, async(files) =>{
       for(const file of files){
         writeTemplate({
-          name:file.replace(".tsx","").replace(".jsx",""),
-          view:path.join(appDir,"./layout",file),
+          name:path.basename(file),
+          view:path.join(appDir,"./views",path.basename(file)),
           layout:path.join(appDir,"./layout")
         });
       }
-      await build(fs.readdirSync(path.join(appDir,"../.reaper/temp/views")).map(dir=>{
-        return path.join(appDir,"../.reaper/temp/views",dir);
-      }),"templates","client");
+      await processFiles(path.join(appDir,"../.reaper/temp/views/"), async(files) =>await build(files,"templates","client"));
     });
   },
   //server side builds
