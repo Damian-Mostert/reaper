@@ -114,25 +114,25 @@ export interface ReaperRoutes {
 interface Device{
     id:string
 }
-interface Event<T>{
-    user:any,
+interface Event<T,U>{
+    user:U,
     device:Device,
     data:T
 }
-type socketCallback<T>=(event:Event<T>)=>void;
+type socketCallback<T,U>=(event:Event<T,U>)=>void;
 
 interface EventStorage<T>{event:string,callback:T}
-export class Listener<Funnle>{
+export class Listener<Funnle,U>{
     private name:string;
     constructor(name:string){
         this.name = name;
     }
-    public events:EventStorage<socketCallback<Funnle>>[] = [];
+    public events:EventStorage<socketCallback<Funnle,U>>[] = [];
     public ws:WebSocket;
     async init(){
 
     }
-    on(event:string,callback:socketCallback<Funnle>){
+    on(event:string,callback:socketCallback<Funnle,U>){
         this.events.push({
             event,
             callback,

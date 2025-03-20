@@ -5,11 +5,12 @@ const tailwindPlugin = require("esbuild-plugin-tailwindcss");
 const fs = require("fs")
 const dirs = require("rprcli/server/config/dirs");
 const logger = require("rprcli/utils/logger");
+const writeTemplate = require("./views/writeTemplate");
 const {
   controllerDir,
   middlewareDir,
   routesDir,
-  templateDir,
+  appDir,
 //  modelsDir,
   migrationsDir,
   seedersDir,
@@ -35,11 +36,16 @@ async function build(files = [],sub,mode="client") {
     platform:mode == "client" ?"browser":"node",  
     format: mode == "client" ?"esm":"cjs",            // Target browser platform (or change to 'node' for server-side)
     loader: {
-      '.css': 'css',                   // Treat `.css` files as CSS
-      '.scss': 'css',                  // Treat `.scss` files as CSS (after SASS compilation)
-      '.js': 'jsx',                    // Treat `.js` files as JS (or JSX)
-      '.ts': 'ts',                     // Treat `.ts` files as TypeScript
-      '.tsx': 'tsx',                   // Treat `.tsx` files as TypeScript JSX
+      ...mode == "client"?{
+        '.css': 'css',                   // Treat `.css` files as CSS
+        '.scss': 'css',                  // Treat `.scss` files as CSS (after SASS compilation)
+        '.js': 'jsx',                    // Treat `.js` files as JS (or JSX)
+        '.ts': 'ts',                     // Treat `.ts` files as TypeScript
+        '.tsx': 'tsx',                   // Treat `.tsx` files as TypeScript JSX
+      }:{
+        '.js': 'js',                    // Treat `.js` files as JS (or JSX)
+        '.ts': 'ts',                     // Treat `.ts` files as TypeScript
+      }
     },
     plugins: [
       tailwindPlugin.default(),                // Adds Tailwind CSS support
@@ -69,16 +75,30 @@ const processFiles =async (dirPath, processCallback) => {
   const files = fs.readdirSync(dirPath).filter(filename=>filename!="index.ejs").map(filename => path.join(dirPath, filename));
   await processCallback(files)
 };
+
 module.exports = {
+  clear:()=>{
+    if(fs.existsSync(path.join(process.cwd(),"./.reaper/out")))fs.rmSync(path.join(process.cwd(),"./.reaper/out",),{recursive:true});
+  },
   //client side builds
   client:async()=>{
     logger.log("info","Building client files");
-    await processFiles(templateDir, async(files) =>await build(files,"templates","client"));
-    logger.log("info","client built.");
+    //MAKE ALL TEMPLATES
+    await processFiles(`${path.join(appDir,"./views")}`, async(files) =>{
+      for(const file of files){
+        writeTemplate({
+          name:file.replace(".tsx","").replace(".jsx",""),
+          view:path.join(appDir,"./layout",file),
+          layout:path.join(appDir,"./layout")
+        });
+      }
+      await build(fs.readdirSync(path.join(appDir,"../.reaper/temp/views")).map(dir=>{
+        return path.join(appDir,"../.reaper/temp/views",dir);
+      }),"templates","client");
+    });
   },
   //server side builds
   server:async()=>{
-    if(fs.existsSync(path.join(process.cwd(),"./.reaper/out")))fs.rmSync(path.join(process.cwd(),"./.reaper/out",),{recursive:true});
     logger.log("info","Building server files");
     await processFiles(routesDir, async(files) =>await build(files,"routes/index","server"));
     await processFiles(listenersDir, async(files) =>await build(files,"api/events","server"));  

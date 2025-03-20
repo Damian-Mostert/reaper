@@ -4,7 +4,7 @@ const controllerDir = path.join(process.cwd(), "./api/controllers");
 const middlewareDir = path.join(process.cwd(), "./api/middleware");
 const listenersDir = path.join(process.cwd(), "./api/events");
 const routesDir = path.join(process.cwd(), "./routes");
-const templateDir = path.join(process.cwd(), "./views");
+const appDir = path.join(process.cwd(), "./app");
 const seedersDir = path.join(process.cwd(), "./db/seeders");
 const migrationsDir = path.join(process.cwd(), "./db/migrations");
 const modelsDir = path.join(process.cwd(), "./db/models");
@@ -15,7 +15,7 @@ module.exports = {
     controllerDir,
     middlewareDir,
     routesDir,
-    templateDir,
+    appDir,
     migrationsDir,
     modelsDir,
     seedersDir,
