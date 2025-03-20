@@ -58,9 +58,19 @@ export function useApi<T, T2>(name: string) {
                     if (!response.ok) {
                         throw new Error(`API request failed with status: ${response.status}`);
                     }
-
-                    const result: T2 = await response.json();
-                    resolve(result);
+                    const res = (()=>{
+                        const contentType = response.headers.get("content-type");
+                        if (contentType?.includes("application/json")) {
+                            return response.json();
+                        } else if (contentType?.includes("text/plain")) {
+                            return response.text();
+                        } else if (contentType?.includes("application/octet-stream")) {
+                            return response.blob(); // Handle binary data
+                        } else {
+                            throw new Error(`Unsupported response type: ${contentType}`);
+                        }
+                    })()
+                    resolve(res);
                 } catch (error) {
                     console.error(`Error calling API ${name}:`, error);
                     reject(error);
@@ -94,49 +104,43 @@ export function useNav(states: string[]) {
     };
 }
 
-export async function loadApi<T, T2>(name: string, data?: T): Promise<T2> {
+export function loadApi<T>(name: string, data?: T) {
     //@ts-ignore
     const api = window.reaperClientSideNames.apis.find((n: any) => n.name === name);
     if (!api) throw new Error(`Invalid API name: ${name}`);
 
-    const url = new URL(`${window.location.protocol}${window.location.host}${api.url}`);
-    const config: RequestInit = {
-        method: api.method,
-        headers: {
-            "Content-Type": "application/json",
-        },
-    };
+    const url = new URL(`${window.location.origin}${api.url}`);
 
-    // Prepare the data based on HTTP method
+    // Append data for GET requests
     if (api.method === "GET" && data) {
         Object.entries(data).forEach(([key, value]) => {
             url.searchParams.append(key, String(value));
         });
-    } else if (api.method === "POST" && data) {
-        config.body = JSON.stringify(data);
     }
 
-    return fetch(url.toString(), config)
-    .then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`API request failed with status: ${response.status}`);
+    // Perform full-page navigation
+    if (api.method === "GET") {
+        window.location.href = url.toString();
+    } else if (api.method === "POST") {
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = url.toString();
+        form.style.display = "none";
+
+        // Append data as hidden form fields
+        if (data) {
+            Object.entries(data).forEach(([key, value]) => {
+                const input = document.createElement("input");
+                input.type = "hidden";
+                input.name = key;
+                input.value = String(value);
+                form.appendChild(input);
+            });
         }
 
-        const contentType = response.headers.get("content-type");
-
-        if (contentType?.includes("application/json")) {
-            return response.json();
-        } else if (contentType?.includes("text/plain")) {
-            return response.text();
-        } else if (contentType?.includes("application/octet-stream")) {
-            return response.blob(); // Handle binary data
-        } else {
-            throw new Error(`Unsupported response type: ${contentType}`);
-        }
-    })
-    .catch((error) => {
-        console.error(`Error calling API ${name}:`, error);
-        throw error;
-    });
-
+        document.body.appendChild(form);
+        form.submit();
+    } else {
+        throw new Error(`Unsupported HTTP method: ${api.method}`);
+    }
 }
