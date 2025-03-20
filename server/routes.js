@@ -1,6 +1,7 @@
 const logger = require("../utils/logger")
 const express = require("express");
 const path = require("path");
+const ejs = require("ejs")
 const app = express();
 logger.log("loading", "Starting server...");
 const loadRoutes = require("rprcli/server/lib/loadRoutes");
@@ -11,4 +12,6 @@ app.use(loadRoutes(APP));
 app.use("/__reaper_generated",express.static(path.join(process.cwd(), ".reaper/out/templates")));
 app.use(express.static(path.join(__dirname, "./public")));
 app.use(express.static(path.join(process.cwd(), "public")));
-module.exports = app
+module.exports = app;
+//force ejs to be included
+module.exports.ejs = ejs;
