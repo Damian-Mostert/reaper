@@ -1,24 +1,37 @@
-
 const fs = require('fs');
 const path = require('path');
-const controllers = {};
-fs.readdirSync(path.join(process.cwd(),"./.reaper/out/api/controllers/")).filter(name=>!name.endsWith("map")&&!name.endsWith("css")).forEach(controller=>{
-  controllers[controller]=require(path.join(process.cwd(),"./.reaper/out/api/controllers/",controller)).default;
-})
-const middleware = {};
-fs.readdirSync(path.join(process.cwd(),"./.reaper/out/api/middleware/",)).filter(name=>!name.endsWith("map")&&!name.endsWith("css")).forEach(controller=>{
-  controllers[controller]= require(path.join(process.cwd(),"./.reaper/out/api/middleware/",controller)).default
-})
-const listeners = {};
-fs.readdirSync(path.join(process.cwd(),"./.reaper/out/api/events/",)).filter(name=>!name.endsWith("map")&&!name.endsWith("css")).forEach(controller=>{
-  listeners[controller]= require(path.join(process.cwd(),"./.reaper/out/api/events/",controller)).default
-})
+
+function loadModules(dir, obj) {
+  fs.readdirSync(dir)
+    .filter(name => !name.endsWith("map") && !name.endsWith("css"))
+    .forEach(file => {
+      const fullPath = path.join(dir, file);
+      delete require.cache[require.resolve(fullPath)]; // Clear cache
+      obj[file] = require(fullPath).default;
+    });
+}
+
+function reloadApp() {
+  loadModules(path.join(process.cwd(), "./.reaper/out/api/controllers/"), APP.controllers);
+  loadModules(path.join(process.cwd(), "./.reaper/out/api/middleware/"), APP.middleware);
+  loadModules(path.join(process.cwd(), "./.reaper/out/api/events/"), APP.listeners);
+  
+  const routesPath = path.join(process.cwd(), "./.reaper/out/routes/index");
+  delete require.cache[require.resolve(routesPath)];
+  APP.routes = require(routesPath).default;
+
+  APP.templates = fs.readdirSync(path.join(process.cwd(), "./app/views"))
+    .map(file => file.replace(/\.(tsx|ts|jsx|js)$/, ""));
+}
 
 const APP = {
-  routes:require(path.join(process.cwd(),"./.reaper/out/routes/index")).default,
-  controllers,
-  listeners,
-  middleware,
-  templates:fs.readdirSync(path.join(process.cwd(),"./app/views")).map(file=>file.replace(".tsx","").replace(".ts","").replace(".jsx","").replace(".js",""))
+  controllers: {},
+  middleware: {},
+  listeners: {},
+  routes: null,
+  templates: []
 };
-module.exports = APP;
+
+reloadApp(); // Initial load
+
+module.exports = { APP, reloadApp };
