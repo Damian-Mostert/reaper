@@ -30,7 +30,7 @@ class Logger {
         console.log(`${this.getTimestamp()} ${chalk.red("✖ ERROR:")} ${msg}`);
     }
     startLoading(msg) {
-        process.stdout.write("\n");
+        //process.stdout.write("\n");
         this.currentFrame = 0;
         this.loadingInterval = setInterval(() => {
             readline.cursorTo(process.stdout, 0);
