@@ -1,6 +1,6 @@
 {
-  "name": "rprcli",
-  "version": "0.1.81-base",
+  "name": "reaperjs",
+  "version": "0.0.1-fire",
   "bin": "./cli.js",
   "license":"./licence",
   "scripts": {
