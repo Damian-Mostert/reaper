@@ -1,6 +1,10 @@
 
-# THE REAPER FRAMEWORK
-A ts based backend framework that supports front end React.js template rendering
+# REAPER.js
+Reaper.js is a powerful TypeScript-based framework designed to streamline backend development. It offers built-in database migrations, seeders, and SQL query utilities, making it easy to manage data efficiently.
+
+With native support for TSX and JSX rendering, developers can seamlessly integrate server-side rendering with modern frontend techniques.
+
+Packed with essential tools, Reaper.js simplifies the process of building a single, full-featured server, reducing boilerplate while ensuring flexibility and scalability.
 ## Docs
 https://www.reaperjs.com/
 ```sh
