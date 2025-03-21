@@ -1,6 +1,6 @@
 {
   "name": "rprcli",
-  "version": "0.0.2-fire",
+  "version": "0.0.3-fire",
   "bin": "./cli.js",
   "license":"./licence",
   "scripts": {

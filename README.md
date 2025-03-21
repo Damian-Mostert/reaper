@@ -5,7 +5,9 @@ Reaper.js is a powerful TypeScript-based framework designed to streamline backen
 With native support for TSX and JSX rendering, developers can seamlessly integrate server-side rendering with modern frontend techniques.
 
 Packed with essential tools, Reaper.js simplifies the process of building a single, full-featured server, reducing boilerplate while ensuring flexibility and scalability.
-## Docs
+### NPM
+https://www.npmjs.com/package/reaperjs
+### Docs
 https://www.reaperjs.com/
 ```sh
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣶⡶⠿⠿⣶⣶⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
