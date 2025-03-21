@@ -4,6 +4,7 @@
     "jsxImportSource": "react",
     "baseUrl": "./",
     "paths": {
+      "@reaper/*":["./node_modules/rprcli/*"],
       "@models/*": ["db/models/*"],
       "@global/*": ["global/*"],
       "@hooks/*": ["hooks/*"],

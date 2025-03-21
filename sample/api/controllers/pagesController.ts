@@ -9,7 +9,18 @@ const pageController:Controller={
                 description:'Home',                
             },
             props:{
-                data:"Hello world"
+                data:request.params.test
+            }
+        })
+    },
+    async test(request,response){
+        response.render<HomePageProps>("test",{
+            metadata:{
+                title:"Test",
+                description:'Home',                
+            },
+            props:{
+                data:request.params.test
             }
         })
     }

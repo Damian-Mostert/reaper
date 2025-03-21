@@ -1,7 +1,7 @@
 //react
 import { useEffect } from "react";
 //reaper
-import { useListener, useApi, useNav, loadApi } from 'rprcli/client';
+import { useListener, useApi, useNav, loadApi } from '@reaper/client';
 //types
 import { messageFunnle } from "@ts/messageFunnle";
 import { testApiDataOut,testApiDataIn } from "@ts/testApiData";

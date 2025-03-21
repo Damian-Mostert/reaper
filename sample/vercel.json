@@ -1,17 +1,20 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "./node_modules/rprcli/server/routes.js",
-        "use": "@vercel/node"
+  "version": 2,
+  "builds": [
+    {
+      "src": "vercel/vercel.js",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": ["node_modules/ejs/**/*"]
       }
-    ],
-    "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "./node_modules/rprcli/server/routes.js"
-      }
-    ],
-    "buildCommand": "npm run build"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/vercel/vercel.js"
+    }
+  ],
+  "buildCommand": "npm i && npm run vercel"
 }
-  
+
