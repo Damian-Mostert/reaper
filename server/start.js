@@ -3,11 +3,11 @@ const WebSocket = require("ws");
 const logger = require("../utils/logger");
 const port = process.env.PORT?process.env.PORT : 3000;
 const routes = require("./routes")
-module.exports = function newServer(APP) {
+module.exports = function newServer(APP,done=()=>{}) {
     if(!APP)APP = require("./lib/load").APP;
     const app = routes(APP);
     const server = app.listen(port, () => {
-        logger.log("success", `Server is running on http://localhost:${port}.`);
+        done()   
     });
     const wss = new WebSocket.Server({ noServer: true });
     server.on("upgrade", (req, socket, head) => {
@@ -15,9 +15,6 @@ module.exports = function newServer(APP) {
             ws.send("connected");
 
         });
-    });
-    server.on("close", () => {
-        logger.log("info", "Server and WebSockets closed.");
     });
     const closeWebsockets = ()=>{
         wss.clients.forEach(client => client.terminate()); // Force-close all WebSocket clients

@@ -29,8 +29,10 @@ class Logger {
     error(msg) {
         console.log(`${this.getTimestamp()} ${chalk.red("✖ ERROR:")} ${msg}`);
     }
+
+    // Start animated loading
     startLoading(msg) {
-        process.stdout.write("\n");
+        process.stdout.write("\n"); // New line before animation starts
         this.currentFrame = 0;
         this.loadingInterval = setInterval(() => {
             readline.cursorTo(process.stdout, 0);
@@ -40,6 +42,8 @@ class Logger {
             this.currentFrame = (this.currentFrame + 1) % this.spinnerFrames.length;
         }, 100);
     }
+
+    // Stop animated loading and replace with a success message
     stopLoading(finalMessage = "Done!") {
         if (this.loadingInterval) {
             clearInterval(this.loadingInterval);
@@ -50,4 +54,8 @@ class Logger {
     }
 }
 const log = new Logger;
-module.exports = log;
+log.startLoading()
+log.info("Server is starting...");
+log.success("Connected to database.");
+log.warning("Low memory detected.");
+log.error("Server crashed.");

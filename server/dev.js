@@ -1,7 +1,12 @@
 const build = require("./build");
 const start = require("./start");
 const chokidar = require("chokidar");
-const {reloadApp} = require("rprcli/server/lib/load");
+const { reloadApp } = require("rprcli/server/lib/load");
+const logger = require("../utils/logger")
+
+
+logger.info("Starting up dev server...");
+
 
 module.exports = () => {
     const cwd = process.cwd();
@@ -10,34 +15,43 @@ module.exports = () => {
     let buildTimeout = null;
     const DEBOUNCE_DELAY = 500;
 
-    const restart = async () => {
-        await reloadApp();
+    const stopServer = async () => {
         if (server) {
             await new Promise((resolve, reject) => {
-                sockets()
+                sockets();
                 server.close((err) => {
                     if (err) {
-                        console.error("Error stopping server:", err);
                         reject(err);
                     } else {
-                        console.log("Server stopped.");
                         resolve();
                     }
                 });
             });
             server = null;
         }
+    };
 
+    const restart = async (count = 2) => {
+        await stopServer();
+        if(count == 2){
+            logger.startLoading('Building server...')
+        }
         try {
-            console.log("Rebuilding...");
+            reloadApp();
             await build.client();
             await build.server();
-            console.log("Restarting server...");
-            web = start();
+            web = start(null,()=>{
+                if(count == 1){
+                    logger.stopLoading("Server is built and is running.");
+                }        
+            });
             server = web.server;
-            sockets = web.closeWebsockets
+            sockets = web.closeWebsockets;
         } catch (err) {
-            console.error("Error restarting:", err);
+            logger.error(err);
+        }
+        if (count > 1) {
+            setTimeout(() => restart(count - 1), 1000);
         }
     };
 
@@ -48,9 +62,10 @@ module.exports = () => {
     });
 
     watcher.on("change", (filePath) => {
+        reloadApp();
         clearTimeout(buildTimeout);
-        buildTimeout = setTimeout(restart, DEBOUNCE_DELAY);
+        buildTimeout = setTimeout(() => restart(2), DEBOUNCE_DELAY); // Restart twice on changes
     });
 
-    restart(); // Initial start
+    restart(2); // Initial start with two restarts
 };

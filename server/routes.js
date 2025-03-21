@@ -1,9 +1,7 @@
-const logger = require("../utils/logger")
 const express = require("express");
 const path = require("path");
 const ejs = require("ejs")
 const app = express();
-logger.log("loading", "Starting server...");
 const loadRoutes = require("rprcli/server/lib/loadRoutes");
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));

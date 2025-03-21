@@ -1,8 +1,9 @@
 import { writeFileSync } from "fs"
 import path from "path"
-import logger from "rprcli/utils/logger"
+import logger from "../../utils/logger"
 export default function createMiddleware(){
-    logger.log("loading","making new middleware...");
+    logger.info("making new middleware...");
+    log.startLoading()
     const sample = ({table})=>`
 import {Middleware } from "rprcli";
 
@@ -12,6 +13,7 @@ const ${table}Middlware:Middleware =async(request,response,next)=>{
 
 export default ${table}Middlware;`
     writeFileSync(path.join(__dirname,"../../../../app/api/middleware/",`newMiddleware.ts`),sample({table:"new"}));
+    logger.stopLoading()
     logger.log("success","Done.");
 }
 createMiddleware()
