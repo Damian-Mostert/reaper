@@ -1,5 +1,5 @@
 
-import { Seeder } from "rprcli";
+import { Seeder } from "reaperjs";
 
 const userSeeder = new Seeder("users",(q)=>{
     

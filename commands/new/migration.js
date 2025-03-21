@@ -5,7 +5,7 @@ export default function createMigration(){
     logger.info("making new migration...");
     logger.startLoading();
     const sample = ({table})=>`
-import { Migration } from "rprcli/db";
+import { Migration } from "reaperjs/db";
 export default Migration("${table}",{
     up(blueprint){
     },

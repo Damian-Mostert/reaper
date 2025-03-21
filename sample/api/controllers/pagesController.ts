@@ -1,4 +1,4 @@
-import { Controller } from "rprcli";
+import { Controller } from "reaperjs";
 import { Users } from "../../db/models/user";
 import { HomePageProps } from "@ts/homePageProps";
 const pageController:Controller={

@@ -1,4 +1,4 @@
-import {Middleware } from "rprcli";
+import {Middleware } from "reaperjs";
 
 const authMiddlware:Middleware =async(request,response,next)=>{
     next()

@@ -1,6 +1,6 @@
 import { messageFunnle } from "@ts/messageFunnle";
 import { user } from "@ts/user";
-import { Listener } from "rprcli";
+import { Listener } from "reaperjs";
 
 const messagesListener = new Listener<messageFunnle,user>("messages");
 messagesListener.on("get-message",({data,user,device})=>{    

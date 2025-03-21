@@ -5,7 +5,7 @@ export default function createMiddleware(){
     logger.info("making new middleware...");
     log.startLoading()
     const sample = ({table})=>`
-import {Middleware } from "rprcli";
+import {Middleware } from "reaperjs";
 
 const ${table}Middlware:Middleware =async(request,response,next)=>{
     next()

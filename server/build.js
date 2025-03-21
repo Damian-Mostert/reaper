@@ -3,7 +3,7 @@ const path = require("path");
 const sassPlugin = require("esbuild-plugin-sass");
 const tailwindPlugin = require("esbuild-plugin-tailwindcss");
 const fs = require("fs")
-const dirs = require("rprcli/server/config/dirs");
+const dirs = require("reaperjs/server/config/dirs");
 const writeTemplate = require("./views/writeTemplate");
 const {
   controllerDir,

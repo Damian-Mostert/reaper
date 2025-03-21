@@ -1,4 +1,4 @@
-import { ReaperRoutes } from "rprcli";
+import { ReaperRoutes } from "reaperjs";
 import ApiRoutes from "./api";
 
 export default function MainRoutes({

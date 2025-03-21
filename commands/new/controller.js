@@ -6,7 +6,7 @@ export default function createController(){
     logger.info("making new controller...");
     log.startLoading()
     const sample = ({table})=>`
-import { Controller } from "rprcli";
+import { Controller } from "reaperjs";
 const ${table}Controller:Controller={
 }
 export default ${table}Controller;`

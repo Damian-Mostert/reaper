@@ -1,6 +1,6 @@
 import { writeFileSync } from "fs"
 import path from "path"
-import logger from "rprcli/utils/logger";
+import logger from "reaperjs/utils/logger";
 
 export default function createService(){
 logger.log("loading","making new service...");

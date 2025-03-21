@@ -1,7 +1,7 @@
 const build = require("./build");
 const start = require("./start");
 const chokidar = require("chokidar");
-const { reloadApp } = require("rprcli/server/lib/load");
+const { reloadApp } = require("reaperjs/server/lib/load");
 const logger = require("../utils/logger")
 
 
