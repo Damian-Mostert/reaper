@@ -1,6 +1,7 @@
 {
     "name": "reaper-example",
     "version": "0.1.0-example",
+    "license":"MIT",
     "scripts": {
         "dev": "npx reaperjs dev",
         "build": "npx reaperjs build",

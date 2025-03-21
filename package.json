@@ -1,8 +1,8 @@
 {
   "name": "reaperjs",
-  "version": "0.0.3-fire",
+  "version": "0.0.4-fire",
   "bin": "./cli.js",
-  "license":"./licence",
+  "license":"MIT",
   "description": "Reaper.js is a powerful TypeScript-based framework designed to streamline backend development. It offers built-in database migrations, seeders, and SQL query utilities, making it easy to manage data efficiently.\nWith native support for TSX and JSX rendering, developers can seamlessly integrate server-side rendering with modern frontend techniques.\nPacked with essential tools, Reaper.js simplifies the process of building a single, full-featured server, reducing boilerplate while ensuring flexibility and scalability.",
   "scripts": {
     "test": "echo \"test\""
