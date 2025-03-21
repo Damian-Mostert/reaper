@@ -22,7 +22,7 @@
     ],
     "dependencies": {
         "ejs": "latest",
-        "rprcli": "^0.1.79-base"
+        "rprcli": "^0.1.80-base"
     },
     "devDependencies": {
         "@types/react": "^18"
