@@ -1,7 +1,8 @@
 {
   "name": "rprcli",
-  "version": "0.1.78-base",
+  "version": "0.1.79-base",
   "bin": "./cli.js",
+  "license":"./licence",
   "scripts": {
     "test": "echo \"test\""
   },
