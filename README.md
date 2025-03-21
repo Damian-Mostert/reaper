@@ -1,6 +1,4 @@
 
-# THIS PACKAGE HAS BEEN MOVED TO https://www.npmjs.com/package/reaperjs
-
 # REAPER.js
 Reaper.js is a powerful TypeScript-based framework designed to streamline backend development. It offers built-in database migrations, seeders, and SQL query utilities, making it easy to manage data efficiently.
 
