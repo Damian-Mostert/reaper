@@ -1,7 +1,7 @@
 
 const WebSocket = require("ws");
 const logger = require("../utils/logger");
-const port = process.env.PORT?process.env.PORT : 3000;
+const port = process.env.SERVER_PORT?process.env.SERVER_PORT : 3000;
 const routes = require("./routes")
 module.exports = function newServer(APP,done=()=>{}) {
     if(!APP)APP = require("./lib/load").APP;

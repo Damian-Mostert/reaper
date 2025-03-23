@@ -4,23 +4,12 @@
     "scripts": {
         "dev": "npx reaperjs dev",
         "build": "npx reaperjs build",
+        "start": "npx reaperjs start",
+        "make": "npx reaperjs make",
         "migrate": "npx reaperjs migrate",
         "rollback": "npx reaperjs rollback",
-        "make": "npx reaperjs make",
-        "seed": "npx reaperjs seed",
-        "start": "npx reaperjs start",
-        "vercel": "npx reaperjs vercel"
+        "seed": "npx reaperjs seed"
     },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/Damian-Mostert/reaper-example.git"
-    },
-    "contributors": [
-        {
-            "name": "Damian Mostert",
-            "url": "https://github.com/Damian-Mostert"
-        }
-    ],
     "dependencies": {
         "ejs": "latest",
         "reaperjs": "latest"

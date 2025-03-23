@@ -2,9 +2,9 @@ import { Migration } from "reaperjs";
 export default Migration("authTokens",{
     up(blueprint){
         blueprint.id()
-        blueprint.number("userId")
-        blueprint.string("token")
-        blueprint.boolean("expired")
+        blueprint.number("userId").notNullable()
+        blueprint.string("token").notNullable()
+        blueprint.boolean("expired").notNullable()
         blueprint.timestamps()
     },
     down(blueprint){
