@@ -55,7 +55,7 @@ module.exports = (app,server)=>async function(req,res,next){
             })
         })
         res.render("index",{
-            script:name,
+            script:`${name}View`,
             clientSideProps:data.props?data.props:{},
             clientSideNames:{
                 listeners:Object.keys(app.listeners),
