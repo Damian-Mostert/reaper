@@ -17,13 +17,13 @@ class Auth{
 }
 export class Seeder{
     Model:Model<{[key:string]:any}>;
-    private Q:(q:Database)=>void
-    constructor(table:string,query:(q:Database)=>void){
+    private Q:(q:Database)=>Promise<void>;
+    constructor(table:string,query:(q:Database)=>Promise<void>){
         this.Model = new Model<{[key:string]:any}>(table);
         this.Q = query;
     }
     async seed(){
-        this.Q(this.Model.query())
+        await this.Q(this.Model.query())
     }
 }
 export class ReaperRequest{
