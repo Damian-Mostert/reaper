@@ -99,7 +99,7 @@ export class ReaperResponse{
 export type url = `/${string}`|`/`
 export type AtPrefixedString = `@${string}Middleware`;
 export type AtPrefixedString2 = `@${string}Controller.${string}`;
-export type AtPrefixedString3 = `@${string}Listener`;
+export type AtPrefixedString3 = `@${string}Event`;
 
 export type Middleware = (request:ReaperRequest,response:ReaperResponse,next:()=>void)=>void
 export type Controller = {
