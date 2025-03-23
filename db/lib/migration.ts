@@ -27,7 +27,7 @@ async function createDatabaseIfNeeded() {
         if (userResponse) {
             log.startLoading("Creating database...");
             try {
-                await query(`CREATE DATABASE IF NOT EXISTS \`${connectionParams.database}\``);
+                await query(`CREATE DATABASE \`${connectionParams.database}\``);
                 log.stopLoading("Database created successfully!");
             } catch (err) {
                 log.error(`Error creating database: ${err.message}`);

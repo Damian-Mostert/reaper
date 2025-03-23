@@ -10,27 +10,33 @@ class Logger {
 
     // Format timestamp
     getTimestamp() {
+        this.stopLoading()
         return chalk.gray(`Reaper.js [${new Date().toLocaleTimeString()}]`);
     }
 
     // Basic log methods
     info(msg) {
+        this.stopLoading()
         console.log(`${this.getTimestamp()} ${chalk.cyan("ℹ INFO:")} ${msg}`);
     }
 
     success(msg) {
+        this.stopLoading()
         console.log(`${this.getTimestamp()} ${chalk.green("✔ SUCCESS:")} ${msg}`);
     }
 
     warning(msg) {
+        this.stopLoading()
         console.log(`${this.getTimestamp()} ${chalk.yellow("⚠ WARNING:")} ${msg}`);
     }
 
     error(msg) {
+        this.stopLoading()
         console.log(`${this.getTimestamp()} ${chalk.red("✖ ERROR:")} ${msg}`);
     }
 
     startLoading(msg) {
+        this.isLoading = true;
         this.currentFrame = 0;
         this.loadingInterval = setInterval(() => {
             readline.cursorTo(process.stdout, 0);
@@ -42,15 +48,18 @@ class Logger {
     }
 
     stopLoading(finalMessage = "Done!") {
-        if (this.loadingInterval) {
-            clearInterval(this.loadingInterval);
-            readline.cursorTo(process.stdout, 0);
-            process.stdout.clearLine(0);
-            console.log(`${this.getTimestamp()} ${chalk.green("✔")} ${chalk.green(finalMessage)}`);
+        if(this.isLoading){
+            this.isLoading = false;
+            if (this.loadingInterval) {
+                clearInterval(this.loadingInterval);
+                readline.cursorTo(process.stdout, 0);
+                process.stdout.clearLine(0);
+                console.log(`${this.getTimestamp()} ${chalk.green("✔")} ${chalk.green(finalMessage)}`);
+            }
         }
     }
 
-    // Question prompt with y/n input
+    // Question prompt with y/n input, without affecting the spinner
     async askQuestion(question) {
         return new Promise((resolve) => {
             const rl = readline.createInterface({
@@ -59,6 +68,8 @@ class Logger {
             });
 
             rl.question(`${this.getTimestamp()} ${chalk.cyan(question)} ${chalk.magentaBright(`[Y/N]`)}: `, (answer) => {
+                // Stop the spinner while waiting for the response
+                this.stopLoading();
                 answer = answer.toLowerCase().trim();
                 rl.close();
                 resolve(answer === 'y'); // true for 'y', false for 'n'
