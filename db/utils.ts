@@ -19,9 +19,7 @@ export const getRecords = async () => {
             },
         }))("up")
         .catch(e=>console.error(e))
-        .then(() => {
-            console.log("Migrations table created!");
-        });
+        .then(() => {});
         const migrationRecords = await migrations.query().get();
         return migrationRecords;
     }

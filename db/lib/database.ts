@@ -119,7 +119,7 @@ export default class Database<T = any> {
         this.limit(perPage, offset);
         
         const data = await this.get();
-        const [{ total }] = await query<{ total: number }[]>(`SELECT COUNT(*) as total FROM ${this.table}`);
+        const [{ total }]:any = await query<{ total: number }[]>(`SELECT COUNT(*) as total FROM ${this.table}`);
         
         return { data, total, page, perPage };
     }

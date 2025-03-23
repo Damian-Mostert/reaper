@@ -102,10 +102,12 @@ export type AtPrefixedString2 = `@${string}Controller.${string}`;
 export type AtPrefixedString3 = `@${string}Event`;
 
 export type Middleware = (request:ReaperRequest,response:ReaperResponse,next:()=>void)=>void
-export type Controller = {
-    [key:string]:ReaperCallback
+
+export type Controller<keys> = {
+    //@ts-ignore
+    [key in keys]:ReaperCallback
 };
-export type ReaperCallback = (request:ReaperRequest,response:ReaperResponse)=>any
+export type ReaperCallback = (request:ReaperRequest,response:ReaperResponse,next:()=>void)=>any
 export type RouteHandler = (name:string,url:string, ReaperCallback:AtPrefixedString2) => any;
 export interface ReaperRoutes {
   Get: RouteHandler;

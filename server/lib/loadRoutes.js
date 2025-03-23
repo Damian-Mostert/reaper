@@ -111,7 +111,11 @@ module.exports = (app,server)=>async function(req,res,next){
         const routstr = build[CALLBACK].callback;
         const controllerName = routstr.split("@")[1].split(".")[0];
         const controllerSubName = routstr.split("@")[1].split(".")[1];
-        return app.controllers[`${controllerName}.js`][controllerSubName](new ReaperRequest(req,params),new ReaperResponse(res,renderTemplate))
+        var pass = false;
+        app.controllers[`${controllerName}.js`][controllerSubName](new ReaperRequest(req,params),new ReaperResponse(res,renderTemplate),()=>pass = true)
+        if(!pass){
+            return;
+        }
     };
     next();
 }
