@@ -39,8 +39,6 @@ To execute a single seeder use:
 npm run seed {name}
 or
 npx reaperjs seed {name}
-Example output
-Reaper.js [2:29:57 PM] ✔ Client and server built.
 
 🛠️ Make
 Creates project resources.
