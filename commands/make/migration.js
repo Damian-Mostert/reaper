@@ -1,3 +1,4 @@
+const path = require("path");
 const newMakeScript = require("./lib/newMakeScript");
 const name = process.argv[2];
-console.log(name)
+newMakeScript(name,path.join(__dirname,"./samples/migration.ts"),path.join(process.cwd(),`./db/migrations/${Date.now()}_${name}.ts`))

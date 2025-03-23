@@ -1,4 +1,4 @@
-import {{{name}}ViewPropsType} from "@ts/{{name}}ViewProps"
+import {{{name}}ViewPropsType} from "types/{{name}}ViewProps"
 export default function {{name}}View({}:{{name}}ViewPropsType){
     return <></>    
 }
