@@ -15,10 +15,10 @@ export async function Migration(tableName:string,databaseSchema:ModelSchema){
         const [existingColumns]:any[] = await query(
             `SHOW COLUMNS FROM \`${tableName}\``
         );
-        const existingColumnsMap = existingColumns.reduce((acc: any, col: any) => {
+        const existingColumnsMap = existingColumns?.reduce?.((acc: any, col: any) => {
             acc[col.Field] = col.Type;
             return acc;
-        }, {});
+        }, {}) ?? {};
     
         const alterQueries: string[] = [];
         for (const column of bluePrint.columns) {
