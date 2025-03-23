@@ -1,3 +1,3 @@
 const newMakeScript = require("./lib/newMakeScript");
-const name = process.argv[3];
+const name = process.argv[2];
 console.log(name)

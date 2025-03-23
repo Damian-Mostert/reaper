@@ -84,12 +84,13 @@ const scripts = {
 };
 
 const command = args.length >  2 ? args.filter((_,i)=>i!=args.length-1).join(" "):args[0];
-const commandArgs = args.slice(1);
+const commandArgs = args.slice(args.length >  2?2:1);
 if (scripts[command]) {
   let script = scripts[command];  
   commandArgs.forEach((arg, index) => {
     script = script.replace(/{{}}/g,commandArgs[index]);
   });
+  console.log(script)
   const child = spawn(script, { stdio: "inherit", shell: true });
   child.on("error", (err) => {
     console.error(`Failed to start command: ${command}`);
