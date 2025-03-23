@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { getRecords } from "../utils";
 import { migrations } from '../models/migration';
-
+const logger = require("../../utils/logger.js")
 export const runMigrations = async (dir: string) => {
     try {
         const migrationRecords = await getRecords();
@@ -20,15 +20,14 @@ export const runMigrations = async (dir: string) => {
             const bIndex = parseInt(b.match(/\_(\d+)\.ts$/)?.[1] || '0');
             return aIndex - bIndex;
         });
-
+        logger.info(`Running latest migrations [${migrationFiles.join(", ")}]`)
         for (const file of migrationFiles) {
             const migration = await require(file).default;
             migration("up")
             await migrations.query().create({ batch: lastBatch + 1, name: file.replace(migrationsDirectory, "") });
         }
-
-        console.log('All migrations executed successfully!');
+        logger.success("All migrations executed successfully!");
     } catch (error) {
-        console.error('Error running migrations:', error);
+        logger.error('Error running migrations:', error);
     }
 };

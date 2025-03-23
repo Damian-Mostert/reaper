@@ -1,7 +1,7 @@
 import BluePrint from "reaperjs/db/lib/bluePrint";
 import { ModelSchema } from "reaperjs/db/lib/model";
 import query, { connectionParams } from "reaperjs/db/lib/query";
-
+const logger = require("../../utils/logger.js")
 export async function Migration(tableName: string, databaseSchema: ModelSchema) {
     return async function (mode: "up" | "down") {
         // Ensure the database exists
@@ -11,8 +11,19 @@ export async function Migration(tableName: string, databaseSchema: ModelSchema) 
         const bluePrint = new BluePrint();
         databaseSchema[mode](bluePrint); // Apply schema modifications for 'up' or 'down' mode
 
-        // Create the SQL string for the table creation
-        const columns = bluePrint.columns.join(', ');
+        // Transform columns into valid SQL strings
+        const columns = bluePrint.columns.map((col: any) => {
+            const { name, type, constraints } = col;
+            // Build the column SQL string
+            return `\`${name}\` ${type} ${constraints.join(' ')}`;
+        }).join(', ');
+
+        // Log columns to ensure proper format
+        logger.startLoading("Building query...");
+        if (!columns) {
+            throw new Error('No valid columns defined in schema.');
+        }
+
         const sql = `CREATE TABLE IF NOT EXISTS \`${tableName}\` (${columns})`;
 
         // Apply the changes if mode is 'up'
@@ -29,9 +40,9 @@ export async function Migration(tableName: string, databaseSchema: ModelSchema) 
 
         // ✅ Add new columns if they do not exist
         for (const column of bluePrint.columns) {
-            const columnName = column.split(' ')[0].replace(/`/g, '');
+            const columnName = column.name;
             if (!existingColumnsMap[columnName]) {
-                alterQueries.push(`ADD COLUMN ${column}`);
+                alterQueries.push(`ADD COLUMN \`${columnName}\` ${column.type} ${column.constraints.join(' ')}`);
             }
         }
 
@@ -56,13 +67,15 @@ export async function Migration(tableName: string, databaseSchema: ModelSchema) 
         for (const index of bluePrint.indexes) {
             alterQueries.push(`ADD ${index}`);
         }
+        const q = bluePrint.drop_whole_table?`DROP TABLE IF EXISTS \`${tableName}\``:alterQueries.length>4?`ALTER TABLE \`${tableName}\` ${alterQueries.join(', ')}`:'';
 
-        // ✅ Drop the entire table if specified
-        if (bluePrint.drop_whole_table) {
-            await query(`DROP TABLE IF EXISTS \`${tableName}\``);
-        } else if (alterQueries.length > 0) {
-            // Apply alterations (if there are any)
-            await query(`ALTER TABLE \`${tableName}\` ${alterQueries.join(', ')}`);
-        }
+        logger.stopLoading("Done building query.");
+        logger.info(`Running query: ${q}`);
+        if(q)await query(q);
+        logger.success("Done.")
+        
     }
 }
+
+
+

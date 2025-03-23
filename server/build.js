@@ -107,6 +107,7 @@ module.exports = {
   },
   //migrations build
   migrations:async()=>{
+    if(fs.existsSync(path.join(process.cwd(),"./.reaper/out/migrations")))fs.rmSync(path.join(process.cwd(),"./.reaper/out/migrations",),{recursive:true});
     await processFiles(path.join(__dirname,"../db/migrate"), async(files) =>await build(files,"migrate","server"));  
     await processFiles(path.join(process.cwd(),"./db/migrations"), async(files) =>await build(files,"migrations","server"));  
   },
