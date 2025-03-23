@@ -68,7 +68,7 @@ const mkCommands = {};
 
 for (const file of mkFiles) {
   if(file.endsWith(".js"))
-  mkCommands[`make ${file.replace(".js", "")} `] = `npx env-cmd -f "${envDir}" node ${__dirname}/commands/make/${file} {{}}`;
+  mkCommands[`make ${file.replace(".js", "")}`] = `npx env-cmd -f "${envDir}" node ${__dirname}/commands/make/${file} {{}}`;
 }
 
 const scripts = {
@@ -84,7 +84,7 @@ const scripts = {
   "start": `npx env-cmd -f "${envDir}" node ${path.join(__dirname, "commands/start.js")}`,
 };
 
-const command = args[0];
+const command = args.length >  2 ? args.filter((_,i)=>i!=args.length-1).join(" "):args[0];
 const commandArgs = args.slice(1);
 if (scripts[command]) {
   let script = scripts[command];  

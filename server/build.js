@@ -76,11 +76,6 @@ const processFiles =async (dirPath, processCallback) => {
 };
 
 module.exports = {
-  vercel:async()=>{
-    await module.exports.client();
-    await module.exports.server();
-    await build([path.join(__dirname,"./vercel")],"../../vercel","server")
-  },
   //client side builds
   client:async()=>{
     writeTemplate.clear();
