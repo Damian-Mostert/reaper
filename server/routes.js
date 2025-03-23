@@ -12,5 +12,3 @@ module.exports = (APP)=>{
     app.use(loadRoutes(APP));
     return app;    
 };
-//force ejs to be included
-module.exports.ejs = ejs;
