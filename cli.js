@@ -90,7 +90,6 @@ if (scripts[command]) {
   commandArgs.forEach((arg, index) => {
     script = script.replace(/{{}}/g,commandArgs[index]);
   });
-  console.log(script)
   const child = spawn(script, { stdio: "inherit", shell: true });
   child.on("error", (err) => {
     console.error(`Failed to start command: ${command}`);
