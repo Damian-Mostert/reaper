@@ -1,7 +1,7 @@
 //import { Users } from "@db/models/user";
 import { Controller } from "reaperjs";
 const userController:Controller={
-    async details(request,response){
+    details:async(request,response)=>{
         const user = await request.user();
         if(user){
             /* const fullUser = await Users.query().where("id","=",user.id).getOne();
