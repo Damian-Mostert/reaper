@@ -42,7 +42,7 @@ module.exports = () => {
             await build.server();
             web = start(null,()=>{
                 if(count == 1){
-                    const port = process.env.PORT?process.env.PORT : 3000;
+                    const port = process.env.SERVER_PORT?process.env.SERVER_PORT : 3000;
                     logger.stopLoading(`Server is running on port ${port}`)
                 }        
             });

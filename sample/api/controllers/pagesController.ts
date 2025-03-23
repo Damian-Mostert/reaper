@@ -1,9 +1,9 @@
 import { Controller } from "reaperjs";
-//import { Users } from "../../db/models/user";
-import { HomePageProps } from "@ts/homePageProps";
-const pageController:Controller={
-    async home(request,response){
-        response.render<HomePageProps>("home",{
+import { homeViewPropsType } from "types/homeViewProps";
+
+const pageController:Controller<"home">={
+    async home(request,response,next){
+        response.render<homeViewPropsType>("home",{
             metadata:{
                 title:"Home",
                 description:'Home',                
@@ -13,16 +13,6 @@ const pageController:Controller={
             }
         })
     },
-    async test(request,response){
-        response.render<HomePageProps>("test",{
-            metadata:{
-                title:"Test",
-                description:'Home',                
-            },
-            props:{
-                data:request.params.test
-            }
-        })
-    }
 }
+
 export default pageController;

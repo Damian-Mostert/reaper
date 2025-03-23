@@ -1,12 +1,48 @@
 import BluePrint from "./bluePrint";
 import { ModelSchema } from "./model";
 import query, { connectionParams } from "./query";
-const logger = require("../../utils/logger.js")
+const logger = require("../../utils/logger.js");
+const log = logger;
+
+// Function to check if the database exists
+async function checkDatabaseExists() {
+    try {
+        const result:any = await query(`SHOW DATABASES LIKE '${connectionParams.database}'`);
+        return result.length > 0;
+    } catch (err) {
+        log.error(`Error checking database: ${err.message}`);
+        return false;
+    }
+}
+
+// Function to create the database if not exists
+async function createDatabaseIfNeeded() {
+    const dbExists = await checkDatabaseExists();
+
+    if (dbExists) {
+        log.success(`Database '${connectionParams.database}' already exists.`);
+    } else {
+        const userResponse = await log.askQuestion(`Database '${connectionParams.database}' does not exist. Do you want to create it?`);
+
+        if (userResponse) {
+            log.startLoading("Creating database...");
+            try {
+                await query(`CREATE DATABASE IF NOT EXISTS \`${connectionParams.database}\``);
+                log.stopLoading("Database created successfully!");
+            } catch (err) {
+                log.error(`Error creating database: ${err.message}`);
+            }
+        } else {
+            log.warning("Database creation aborted.");
+        }
+    }
+}
+
+
 export async function Migration(tableName: string, databaseSchema: ModelSchema) {
     return async function (mode: "up" | "down") {
         // Ensure the database exists
-        await query(`CREATE DATABASE IF NOT EXISTS \`${connectionParams.database}\``);
-
+        await createDatabaseIfNeeded();
         // Create a new BluePrint instance
         const bluePrint = new BluePrint();
         databaseSchema[mode](bluePrint); // Apply schema modifications for 'up' or 'down' mode

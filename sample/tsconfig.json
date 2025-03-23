@@ -1,16 +1,14 @@
 {
   "compilerOptions": {
+    "strict": true, 
+    "allowJs": false,
     "jsx": "react-jsx",
     "jsxImportSource": "react",
     "baseUrl": "./",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
     "paths": {
-      "@reaper/*":["./node_modules/reaperjs/*"],
-      "@models/*": ["db/models/*"],
-      "@global/*": ["global/*"],
-      "@hooks/*": ["hooks/*"],
-      "@styles/*": ["views/styles/*"],
-      "@components/*": ["views/components/*"],
-      "@ts/*": ["types/*"]
     }
   }
 }

@@ -29,8 +29,8 @@ class Logger {
     error(msg) {
         console.log(`${this.getTimestamp()} ${chalk.red("✖ ERROR:")} ${msg}`);
     }
+
     startLoading(msg) {
-        //process.stdout.write("\n");
         this.currentFrame = 0;
         this.loadingInterval = setInterval(() => {
             readline.cursorTo(process.stdout, 0);
@@ -40,6 +40,7 @@ class Logger {
             this.currentFrame = (this.currentFrame + 1) % this.spinnerFrames.length;
         }, 100);
     }
+
     stopLoading(finalMessage = "Done!") {
         if (this.loadingInterval) {
             clearInterval(this.loadingInterval);
@@ -48,6 +49,23 @@ class Logger {
             console.log(`${this.getTimestamp()} ${chalk.green("✔")} ${chalk.green(finalMessage)}`);
         }
     }
+
+    // Question prompt with y/n input
+    async askQuestion(question) {
+        return new Promise((resolve) => {
+            const rl = readline.createInterface({
+                input: process.stdin,
+                output: process.stdout
+            });
+
+            rl.question(`${this.getTimestamp()} ${chalk.cyan(question)} ${chalk.magentaBright(`[Y/N]`)}: `, (answer) => {
+                answer = answer.toLowerCase().trim();
+                rl.close();
+                resolve(answer === 'y'); // true for 'y', false for 'n'
+            });
+        });
+    }
 }
-const log = new Logger;
+
+const log = new Logger();
 module.exports = log;
