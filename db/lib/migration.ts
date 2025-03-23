@@ -1,6 +1,6 @@
-import BluePrint from "reaperjs/db/lib/bluePrint";
-import { ModelSchema } from "reaperjs/db/lib/model";
-import query, { connectionParams } from "reaperjs/db/lib/query";
+import BluePrint from "./bluePrint";
+import { ModelSchema } from "./model";
+import query, { connectionParams } from "./query";
 const logger = require("../../utils/logger.js")
 export async function Migration(tableName: string, databaseSchema: ModelSchema) {
     return async function (mode: "up" | "down") {
@@ -20,9 +20,6 @@ export async function Migration(tableName: string, databaseSchema: ModelSchema) 
 
         // Log columns to ensure proper format
         logger.startLoading("Building query...");
-        if (!columns) {
-            throw new Error('No valid columns defined in schema.');
-        }
 
         const sql = `CREATE TABLE IF NOT EXISTS \`${tableName}\` (${columns})`;
 
@@ -30,8 +27,8 @@ export async function Migration(tableName: string, databaseSchema: ModelSchema) 
         if (mode === "up") await query(sql);
 
         // Get the current structure of the table (if exists)
-        const [existingColumns]: any[] = await query(`SHOW COLUMNS FROM \`${tableName}\``);
-        const existingColumnsMap = existingColumns?.reduce?.((acc: any, col: any) => {
+        const existingColumns: any = await query(`SHOW COLUMNS FROM \`${tableName}\``);
+        var existingColumnsMap = existingColumns?.reduce?.((acc: any, col: any) => {
             acc[col.Field] = col.Type;
             return acc;
         }, {}) ?? {};
