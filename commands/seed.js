@@ -10,7 +10,7 @@ build.seeders(seed != "{{}}"?seed:"").then(()=>{
         logger.stopLoading("Seeder has been compiled and executed been executed!");
     }else{
         const seeders = fs.readdirSync(path.join(process.cwd(),".reaper/out/seeders/"));
-        logger.stopLoading(`Seeders compiled: [${seeders.join(" ")}]`);
+        logger.stopLoading(`Seeders compiled: [${seeders.filter(name=>name.endsWith(".js")).join(", ")}]`);
         for(let seeder of seeders.filter(name=>name.endsWith(".js"))){           
             require(path.join(process.cwd(),".reaper/out/seeders/",seeder))
             logger.stopLoading(`Seeder ${seeder} has been executed!`);
