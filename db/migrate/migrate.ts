@@ -28,6 +28,6 @@ export const runMigrations = async (dir: string) => {
         }
         logger.success("All migrations executed successfully!");
     } catch (error) {
-        logger.error('Error running migrations:', error);
+        logger.error(`Error running migrations: ${error}`);
     }
 };
