@@ -1,3 +1,4 @@
+import {homeViewPropsType} from "types/homeViewProps"
 //react
 import { useEffect } from "react";
 //reaper
@@ -5,9 +6,8 @@ import { useListener, useApi, useNav, loadApi } from '@reaper/client';
 //types
 import { messageFunnle } from "@ts/messageFunnle";
 import { testApiDataOut,testApiDataIn } from "@ts/testApiData";
-import { HomePageProps } from "@ts/homePageProps";
 
-export default function Home({data}:HomePageProps){
+export default function Home({data}:homeViewPropsType){
     const nav = useNav(["welcome","test","done"]);
     const messagesListener = useListener<messageFunnle>("messages");
     const TestApi = useApi<testApiDataIn,testApiDataOut>("test");
@@ -28,6 +28,7 @@ export default function Home({data}:HomePageProps){
     },[]);
 
     return <div style={{display:"flex",flexDirection:"column",gap:"1rem"}}>
+        <img src="/reaper.webp"/>
         <div>{data}</div>
         <button onClick={()=>loadApi("home-page",{
             reloaded:true

@@ -1,12 +1,12 @@
 {
     "name": "reaper-example",
     "version": "0.1.0-example",
-    "license":"MIT",
     "scripts": {
         "dev": "npx reaperjs dev",
         "build": "npx reaperjs build",
         "migrate": "npx reaperjs migrate",
         "rollback": "npx reaperjs rollback",
+        "make": "npx reaperjs make",
         "seed": "npx reaperjs seed",
         "start": "npx reaperjs start",
         "vercel": "npx reaperjs vercel"
@@ -23,10 +23,9 @@
     ],
     "dependencies": {
         "ejs": "latest",
-        "reaperjs": "^0.1.80-base"
+        "reaperjs": "latest"
     },
     "devDependencies": {
         "@types/react": "^18"
     }
 }
-

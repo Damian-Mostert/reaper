@@ -1,5 +1,5 @@
 import { Migration } from "reaperjs";
-export default Migration("auth-tokens",{
+export default Migration("authTokens",{
     up(blueprint){
         blueprint.id()
         blueprint.number("userId")
