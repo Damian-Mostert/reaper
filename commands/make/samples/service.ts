@@ -1,4 +1,4 @@
-import { {{name}}ServicePropsType } from "@ts/{{name}}ServiceProps";
+import { {{name}}ServicePropsType } from "types/{{name}}ServiceProps";
 
 export default async function {{name}}Service(props:{{name}}ServicePropsType){
     
