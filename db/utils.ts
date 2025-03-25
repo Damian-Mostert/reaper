@@ -9,7 +9,7 @@ export const getRecords = async () => {
             FROM information_schema.tables 
             WHERE table_name = 'migrations'
         `);
-        if (tableExists[0]?.count === 0) {
+        if (tableExists?.[0]?.count !== 0) {
             const migrationRecords = await migrations.query().get();
             return migrationRecords;    
         }else{
