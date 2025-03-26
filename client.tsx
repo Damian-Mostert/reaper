@@ -196,16 +196,18 @@ function unapplyAllStyles() {
 }
 
 // Usage
-
-export function loadTemplateFromApi(name: string, data:{params?:{[key:string]:string},request?:{[key:string]:string}}) {
+const parseUrl = (url: string, params: { [key: string]: string }): string => {
+    return url.replace(/\[\.{3}(\w+)]|\[(\w+)]/g, (_, spreadParam, normalParam) => {
+        const key = spreadParam || normalParam; // Determine whether it's a spread or normal param
+        return params[key] !== undefined ? params[key] : `[${key}]`; // Replace or keep placeholder
+    });
+};
+export function loadTemplateFromApi(name: string, data:{params?:{[key:string]:string},request?:{[key:string]:any}}) {
 	if(!data.params)data.params = {};
 	if(!data.request)data.request = {};
-	//@ts-ignore
 	data.request.reaperTemplateBasicRequest = true;
-	//@ts-ignore
 	const api = useApi(name);
-	console.log(data)
-	let url = new URL(`${window.location.protocol}//${window.location.host}${api.api.url}`);
+    let url = new URL(parseUrl(api.api.url, data.params), window.location.origin);
 	api.call(data.request).then((res: any) => {
 		unapplyAllStyles();
 		window.history.pushState({}, "", url);

@@ -89,7 +89,6 @@ async function build(files = [], sub, mode = "client") {
         "process.env.NODE_ENV": JSON.stringify("production"), // Suppresses React DevTools message
       },
       tsconfig: path.join(process.cwd(), './tsconfig.json'),
-      
       alias
     });
   } catch (error) {
