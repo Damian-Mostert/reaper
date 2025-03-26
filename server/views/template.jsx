@@ -4,5 +4,16 @@ import View from "{{view}}";
 import Layout from "{{layout}}";
 //@ts-ignore
 import render from "reaperjs/client";
-//@ts-ignore
-render("root",(props)=>(<Layout><View {...props}></View></Layout>))
+
+if(!window.reaperHasRenderedLayout){
+    render("reaperjs-layout",(props)=>(<Layout {...props}></Layout>));
+    window.reaperHasRenderedLayout = true;
+}
+
+const renderInterval = setInterval(()=>{
+    var elm = document.querySelector("reaperjs-root");
+    if(elm){
+        render("reaperjs-root",(props)=>(<View {...props}/>))
+        clearInterval(renderInterval);
+    }
+},10);

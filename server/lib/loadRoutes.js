@@ -1,8 +1,8 @@
 const path = require("path");
 const ReaperRequest = require('./reaperRequest');
 const ReaperResponse = require('./reaperResponse');
-
-module.exports = (app,server)=>async function(req,res,next){
+const logger = require("../../utils/logger")
+module.exports = (app)=>async function(req,res,next){
     const routes = app.routes;
     const build = {};
     const middleware = {};
@@ -38,86 +38,119 @@ module.exports = (app,server)=>async function(req,res,next){
             Group,
         });
     }
-    routes({
-        Get,
-        Post,
-        Middleware,
-        Group,
-    });
-
     const renderTemplate =async (name,data={})=>{
+        const request = new ReaperRequest(req);
         const apis = [];
+
         Object.keys(build).forEach(key=>{
             apis.push({
                 name:key,
                 method:build[key].method,
                 url:build[key].url
             })
-        })
-        res.render("index",{
-            script:`${name}View`,
-            clientSideProps:data.props?data.props:{},
-            clientSideNames:{
-                listeners:Object.keys(app.listeners),
-                apis
-            },
-            metadata:{                
-                title: 'Reaper website',
-                description: 'A website made with the reaper framework',
-                author: 'Damian Mostert',
-                keywords: '',
-                ogTitle: '',
-                ogDescription: '',
-                ogImage: '',
-                ogUrl: '',
-                twitterCard: '',
-                twitterTitle: '',
-                twitterDescription: '',
-                twitterImage: '',
-                favicon: '/reaper.webp',
-                ...data.metadata?data.metadata:{}
+        });
+
+        if(request.data.reaperTemplateBasicRequest){
+            res.json({
+                script:`${name}`,
+                clientSideProps:data.props?data.props:{},
+                clientSideNames:{
+                    apis
+                },
+                metadata:{                
+                    title: '',
+                    description: '',
+                    author: '',
+                    keywords: '',
+                    ogTitle: '',
+                    ogDescription: '',
+                    ogImage: '',
+                    ogUrl: '',
+                    twitterCard: '',
+                    twitterTitle: '',
+                    twitterDescription: '',
+                    twitterImage: '',
+                    favicon: '/reaper.webp',
+                    ...data.metadata?data.metadata:{}
+                }
+            })
+        }else{
+            res.render("index",{
+                script:`${name}View`,
+                clientSideProps:data.props?data.props:{},
+                clientSideNames:{
+                    apis
+                },
+                metadata:{                
+                    title: '',
+                    description: '',
+                    author: '',
+                    keywords: '',
+                    ogTitle: '',
+                    ogDescription: '',
+                    ogImage: '',
+                    ogUrl: '',
+                    twitterCard: '',
+                    twitterTitle: '',
+                    twitterDescription: '',
+                    twitterImage: '',
+                    favicon: '/reaper.webp',
+                    ...data.metadata?data.metadata:{}
+                }
+            });
+        }
+    }
+    try{
+        routes({
+            Get,
+            Post,
+            Middleware,
+            Group,
+        });
+    
+        var Params = {};
+    
+        for(let url of Object.keys(middleware)){
+            const {isValid,params} = isValidUrl(req.url,`${url}/[...middlewareRoute]`);
+            Params = {...Params,...params}
+            if(isValid){
+                const middlewareName = middleware[url];
+                var allow = false;
+                var next = ()=>{
+                    allow = true;
+                }
+                await app.middleware[`${middlewareName}.js`](new ReaperRequest(req,params),new ReaperResponse(res,renderTemplate),next)
+                if(!allow)return;
+            }
+        }
+    
+        const CALLBACK = Object.keys(build).find(name=>{
+            const item = build[name];        
+            const {isValid,params} = isValidUrl(req.url,item.url);
+            Params = {...Params,...params};
+            switch(item.method == req.method && isValid){        
+                case true:
+                    return true;
+                case false:
+                    return false;
             }
         });
-    }
-    var Params = {};
-
-    for(let url of Object.keys(middleware)){
-        const {isValid,params} = isValidUrl(req.url,`${url}/[...middlewareRoute]`);
-        Params = {...Params,...params}
-        if(isValid){
-            const middlewareName = middleware[url];
-            var allow = false;
-            var next = ()=>{
-                allow = true;
+        if(CALLBACK){
+            const params = Params;
+            const routstr = build[CALLBACK].callback;
+            const controllerName = routstr.split("@")[1].split(".")[0];
+            const controllerSubName = routstr.split("@")[1].split(".")[1];
+            var pass = false;
+            await app.controllers[`${controllerName}.js`][controllerSubName](new ReaperRequest(req,params),new ReaperResponse(res,renderTemplate),()=>pass = true)
+            if(!pass){
+                return;
             }
-            app.middleware[`${middlewareName}.js`](new ReaperRequest(req,params),new ReaperResponse(res,renderTemplate),next)
-            if(!allow)return;
-        }
+        };
+        next();
+    }catch(e){
+        logger.error(e);
+        return next()
     }
-
-    const CALLBACK = Object.keys(build).find(name=>{
-        const item = build[name];        
-        const {isValid,params} = isValidUrl(req.url,item.url);
-        Params = {...Params,...params};
-        switch(item.method == req.method && isValid){        
-            case true:
-                return true;
-            case false:
-                return false;
-        }
-    });
-    if(CALLBACK){
-        const params = Params;
-        const routstr = build[CALLBACK].callback;
-        const controllerName = routstr.split("@")[1].split(".")[0];
-        const controllerSubName = routstr.split("@")[1].split(".")[1];
-        var pass = false;
-        app.controllers[`${controllerName}.js`][controllerSubName](new ReaperRequest(req,params),new ReaperResponse(res,renderTemplate),()=>pass = true)
-        if(!pass){
-            return;
-        }
-    };
-    next();
 }
 const isValidUrl = (url_in, base_url) => {
     if (!url_in || !base_url) return { isValid: false, params: {} };

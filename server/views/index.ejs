@@ -2,9 +2,8 @@
 <html lang="en">
     <%- include('./lib/metadata.ejs', { metadata }) %>
     <body>
-        <root></root>
+        <reaperjs-layout></reaperjs-layout>
         <%- include('./lib/clientSideProps.ejs', { clientSideProps,clientSideNames }) %>
-        <%- include('./lib/socket.ejs', { }) %>
         <script id="root-script" src="/__reaper_generated/<%= script %>.js"></script>
         <link id="root-styles" rel="stylesheet" href="/__reaper_generated/<%= script %>.css">
     </body>
