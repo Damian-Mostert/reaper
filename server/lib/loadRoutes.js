@@ -46,38 +46,68 @@ module.exports = (app,server)=>async function(req,res,next){
     });
 
     const renderTemplate =async (name,data={})=>{
+        const request = new ReaperRequest(req);
         const apis = [];
+
         Object.keys(build).forEach(key=>{
             apis.push({
                 name:key,
                 method:build[key].method,
                 url:build[key].url
             })
-        })
-        res.render("index",{
-            script:`${name}View`,
-            clientSideProps:data.props?data.props:{},
-            clientSideNames:{
-                listeners:Object.keys(app.listeners),
-                apis
-            },
-            metadata:{                
-                title: 'Reaper website',
-                description: 'A website made with the reaper framework',
-                author: 'Damian Mostert',
-                keywords: '',
-                ogTitle: '',
-                ogDescription: '',
-                ogImage: '',
-                ogUrl: '',
-                twitterCard: '',
-                twitterTitle: '',
-                twitterDescription: '',
-                twitterImage: '',
-                favicon: '/reaper.webp',
-                ...data.metadata?data.metadata:{}
-            }
         });
+
+        if(request.data.fromReaperClient){
+            res.json({
+                script:`${name}`,
+                clientSideProps:data.props?data.props:{},
+                clientSideNames:{
+                    listeners:Object.keys(app.listeners),
+                    apis
+                },
+                metadata:{                
+                    title: '',
+                    description: '',
+                    author: '',
+                    keywords: '',
+                    ogTitle: '',
+                    ogDescription: '',
+                    ogImage: '',
+                    ogUrl: '',
+                    twitterCard: '',
+                    twitterTitle: '',
+                    twitterDescription: '',
+                    twitterImage: '',
+                    favicon: '/reaper.webp',
+                    ...data.metadata?data.metadata:{}
+                }
+            })
+        }else{
+            res.render("index",{
+                script:`${name}View`,
+                clientSideProps:data.props?data.props:{},
+                clientSideNames:{
+                    listeners:Object.keys(app.listeners),
+                    apis
+                },
+                metadata:{                
+                    title: '',
+                    description: '',
+                    author: '',
+                    keywords: '',
+                    ogTitle: '',
+                    ogDescription: '',
+                    ogImage: '',
+                    ogUrl: '',
+                    twitterCard: '',
+                    twitterTitle: '',
+                    twitterDescription: '',
+                    twitterImage: '',
+                    favicon: '/reaper.webp',
+                    ...data.metadata?data.metadata:{}
+                }
+            });
+        }
     }
     var Params = {};
 
