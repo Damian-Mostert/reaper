@@ -14,7 +14,6 @@ function loadModules(dir, obj) {
 function reloadApp() {
   loadModules(path.join(process.cwd(), "./.reaper/out/api/controllers/"), APP.controllers);
   loadModules(path.join(process.cwd(), "./.reaper/out/api/middleware/"), APP.middleware);
-  loadModules(path.join(process.cwd(), "./.reaper/out/api/events/"), APP.listeners);
   
   const routesPath = path.join(process.cwd(), "./.reaper/out/routes/index");
   delete require.cache[require.resolve(routesPath)];

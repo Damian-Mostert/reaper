@@ -32,10 +32,8 @@ module.exports = () => {
     };
 
     const restart = async (count = 2) => {
+        if(count==1)logger.startLoading('Building server...')
         await stopServer();
-        if(count == 2){
-            logger.startLoading('Building server...')
-        }
         try {
             reloadApp();
             await build.client();
@@ -44,6 +42,7 @@ module.exports = () => {
                 if(count == 1){
                     const port = process.env.SERVER_PORT?process.env.SERVER_PORT : 3000;
                     logger.stopLoading(`Server is running on port ${port}`)
+        
                 }        
             });
             server = web.server;

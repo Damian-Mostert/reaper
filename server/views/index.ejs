@@ -4,9 +4,6 @@
     <body>
         <reaperjs-layout></reaperjs-layout>
         <%- include('./lib/clientSideProps.ejs', { clientSideProps,clientSideNames }) %>
-        <%- include('./lib/socket.ejs', { }) %>
-        <script id="root-layout" src="/__reaper_generated/layout.js"></script>
-        <link id="root-layout-css" rel="stylesheet" href="/__reaper_generated/layout.css">
         <script id="root-script" src="/__reaper_generated/<%= script %>.js"></script>
         <link id="root-styles" rel="stylesheet" href="/__reaper_generated/<%= script %>.css">
     </body>
