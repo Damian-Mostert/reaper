@@ -127,44 +127,48 @@ interface State {
 	hasError: boolean;
 	errorMessage: string;
 	errorStack: string;
-}
-class ErrorBoundary extends React.Component<any, State> {
-	state = { 
-	  hasError: false, 
-	  errorMessage: '', 
-	  errorStack: '' 
+  }
+  
+  class ErrorBoundary extends React.Component<any, State> {
+	state = {
+	  hasError: window.errorState?.hasError || false,
+	  errorMessage: window.errorState?.errorMessage || '',
+	  errorStack: window.errorState?.errorStack || '',
 	};
   
 	static getDerivedStateFromError(error: any) {
-	  // Render fallback UI after an error is caught
 	  return { hasError: true };
 	}
   
 	componentDidCatch(error: any, errorInfo: any) {
-	  // Log the error and error information for debugging
 	  console.error("Error captured by Error Boundary:", error, errorInfo);
   
-	  // Save the error message and stack trace
-	  this.setState({
+	  const errorData = {
+		hasError: true,
 		errorMessage: error.message,
-		errorStack: error.stack || "No stack trace available."
-	  });
+		errorStack: error.stack || "No stack trace available.",
+	  };
+  
+	  // Cache the error globally
+	  window.errorState = errorData;
+  
+	  // Save to localStorage/sessionStorage if needed
+	  localStorage.setItem("errorState", JSON.stringify(errorData));
+  
+	  this.setState(errorData);
 	}
   
 	render() {
 	  if (this.state.hasError) {
-		// Show error modal with message and stack trace
 		return <Error message={this.state.errorMessage} trace={this.state.errorStack} />;
 	  }
-  
-	  // If no error, render children normally
 	  return this.props.children;
 	}
   }
   
   
   // Usage in your render function
-  export default function render(q: string, Children: React.ComponentType, props: any) {
+  export default function render(q: string, Children: React.ComponentType) {
 	const elements = document.querySelectorAll(q);
 	
 	elements.forEach((el) => {
@@ -174,7 +178,7 @@ class ErrorBoundary extends React.Component<any, State> {
 		root.render(
 		  <React.StrictMode>
 			<ErrorBoundary>
-			  <Children {...props} />
+			  <Children {...window.reaperClientSideProps} />
 			</ErrorBoundary>
 		  </React.StrictMode>
 		);
@@ -368,18 +372,19 @@ const parseUrl = (url: string, params: { [key: string]: string }): string => {
         return params[key] !== undefined ? params[key] : `[${key}]`; // Replace or keep placeholder
     });
 };
-export function loadTemplateFromApi(name: string, data:{params?:{[key:string]:string},request?:{[key:string]:any}}) {
+export function loadTemplateFromApi(name: string, data:{params?:{[key:string]:string},data?:{[key:string]:any}}) {
 	if(!data.params)data.params = {};
-	if(!data.request)data.request = {};
-	data.request.reaperTemplateBasicRequest = true;
+	if(!data.data)data.data = {};
+	data.data.reaperTemplateBasicRequest = true;
 	const api = useApi(name);
     let url = new URL(parseUrl(api.api.url, data.params), window.location.origin);
-	api.call(data.request).then((res: any) => {
+	api.call(data.data).then((res: any) => {
 		unapplyAllStyles();
+		window.reaperClientSideProps = res.clientSideProps;
+		window.reaperClientSideNames = res.clientSideNames
 		window.history.pushState({}, "", url);
 		loadScript(res.script, () => {});
 		applyMetadata(res.metadata);
-		console.log(res);
 	}).catch(e=>{
 		console.error(e);
 	});
