@@ -9,15 +9,181 @@ declare global {
 		}
 	}
 }
-export default function render(q:string,Children:any){
-	const elements = document.querySelectorAll(q);
-	elements.forEach(el=>{
-	const root = ReactDOM.createRoot(el);
-	root.render(<React.StrictMode>
-		<Children {...props}/>
-	</React.StrictMode>)
-	})
+//@ts-ignore
+import packageJson from "./package.json";
+
+interface ErrorProps {
+  message: any;
+  trace?: string; // Optional trace information
 }
+
+const Error: React.FC<ErrorProps> = ({ message, trace }) => {
+  return (
+    <div
+      style={{
+        zIndex: 999,
+        position: "fixed",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        backgroundColor: "rgba(0, 0, 0, 0.8)",
+        borderRadius: "8px",
+        boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.3)",
+        color: "#fff",
+        maxWidth: "500px", // Wider for better text readability
+        width: "100%",
+        textAlign: "center",
+        padding: "20px", // Add padding for spacing
+      }}
+    >
+      {/* Header Section */}
+      <div
+        style={{
+          fontSize: "20px",
+          fontWeight: "bold",
+          marginBottom: "15px",
+          display: "flex",
+          justifyContent: "space-between",
+          background: "#222",
+          padding: "10px",
+          borderRadius: "5px",
+		  alignItems:"center"
+        }}
+      >
+        <div
+          style={{
+            fontSize: "14px",
+            color: "#aaa",
+            marginBottom: "0",
+          }}
+        >
+          Reaper.js ({packageJson.version})
+        </div>
+        <span style={{ color: "#ff5c5c" }}>⚠️ Error</span>
+      </div>
+
+      {/* Error Message */}
+      <div
+        style={{
+          fontSize: "16px",
+          lineHeight: "1.5",
+          marginBottom: "15px",
+          maxWidth: "400px",
+          margin: "0 auto",
+          paddingBottom: "1rem",
+        }}
+      >
+        Something went wrong: {message}
+      </div>
+
+      {/* Optional Trace Section */}
+      {trace && (
+        <div
+          style={{
+            background: "#333",
+            color: "#eee",
+            padding: "10px",
+            borderRadius: "8px",
+            maxHeight: "200px",
+            overflowY: "auto",
+            fontFamily: "monospace",
+            fontSize: "14px",
+            marginBottom: "20px",
+          }}
+        >
+          <strong>Trace:</strong>
+          <pre>{trace}</pre>
+        </div>
+      )}
+
+      {/* Reload Button */}
+      <button
+        onClick={() => window.location.reload()}
+        style={{
+          backgroundColor: "#ff5c5c",
+          color: "#fff",
+          padding: "10px 20px",
+          border: "none",
+          borderRadius: "5px",
+          cursor: "pointer",
+          fontSize: "16px",
+          transition: "background-color 0.3s",
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.backgroundColor = "#e04e4e";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.backgroundColor = "#ff5c5c";
+        }}
+      >
+        Reload Page
+      </button>
+    </div>
+  );
+};
+
+
+interface State {
+	hasError: boolean;
+	errorMessage: string;
+	errorStack: string;
+}
+class ErrorBoundary extends React.Component<any, State> {
+	state = { 
+	  hasError: false, 
+	  errorMessage: '', 
+	  errorStack: '' 
+	};
+  
+	static getDerivedStateFromError(error: any) {
+	  // Render fallback UI after an error is caught
+	  return { hasError: true };
+	}
+  
+	componentDidCatch(error: any, errorInfo: any) {
+	  // Log the error and error information for debugging
+	  console.error("Error captured by Error Boundary:", error, errorInfo);
+  
+	  // Save the error message and stack trace
+	  this.setState({
+		errorMessage: error.message,
+		errorStack: error.stack || "No stack trace available."
+	  });
+	}
+  
+	render() {
+	  if (this.state.hasError) {
+		// Show error modal with message and stack trace
+		return <Error message={this.state.errorMessage} trace={this.state.errorStack} />;
+	  }
+  
+	  // If no error, render children normally
+	  return this.props.children;
+	}
+  }
+  
+  
+  // Usage in your render function
+  export default function render(q: string, Children: React.ComponentType, props: any) {
+	const elements = document.querySelectorAll(q);
+	
+	elements.forEach((el) => {
+	  const root = ReactDOM.createRoot(el);
+	  
+	  try {
+		root.render(
+		  <React.StrictMode>
+			<ErrorBoundary>
+			  <Children {...props} />
+			</ErrorBoundary>
+		  </React.StrictMode>
+		);
+	  } catch (error) {
+		root.render(<Error message={error}/>)
+	  }
+	});
+  }
+  
 
 export function useListener<socketFunnle>(name:string){
 	const emit = (name:string,data:socketFunnle)=>{
