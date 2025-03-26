@@ -6,36 +6,38 @@ class Logger {
         this.spinnerFrames = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"];
         this.currentFrame = 0;
         this.loadingInterval = null;
+        this.isLoading = false;
+        this.buildStartTime = null;
     }
 
     // Format timestamp
     getTimestamp() {
-        this.stopLoading()
         return chalk.gray(`Reaper.js [${new Date().toLocaleTimeString()}]`);
     }
 
     // Basic log methods
     info(msg) {
-        this.stopLoading()
+        this.stopLoading(); // Ensure loading is stopped before logging
         console.log(`${this.getTimestamp()} ${chalk.cyan("ℹ INFO:")} ${msg}`);
     }
 
     success(msg) {
-        this.stopLoading()
+        this.stopLoading(); // Ensure loading is stopped before logging
         console.log(`${this.getTimestamp()} ${chalk.green("✔ SUCCESS:")} ${msg}`);
     }
 
     warning(msg) {
-        this.stopLoading()
+        this.stopLoading(); // Ensure loading is stopped before logging
         console.log(`${this.getTimestamp()} ${chalk.yellow("⚠ WARNING:")} ${msg}`);
     }
 
     error(msg) {
-        this.stopLoading()
+        this.stopLoading(); // Ensure loading is stopped before logging
         console.log(`${this.getTimestamp()} ${chalk.red("✖ ERROR:")} ${msg}`);
     }
 
     startLoading(msg) {
+        this.stopLoading(); // Stop any previous loading before starting a new one
         this.isLoading = true;
         this.currentFrame = 0;
         this.loadingInterval = setInterval(() => {
@@ -47,14 +49,16 @@ class Logger {
         }, 100);
     }
 
-    stopLoading(finalMessage = "Done!") {
-        if(this.isLoading){
+    stopLoading(finalMessage = "") {
+        if (this.isLoading) {
             this.isLoading = false;
             if (this.loadingInterval) {
                 clearInterval(this.loadingInterval);
                 readline.cursorTo(process.stdout, 0);
                 process.stdout.clearLine(0);
-                console.log(`${this.getTimestamp()} ${chalk.green("✔")} ${chalk.green(finalMessage)}`);
+                if (finalMessage) {
+                    console.log(`${this.getTimestamp()} ${chalk.green("✔")} ${chalk.green(finalMessage)}`);
+                }
             }
         }
     }
@@ -75,6 +79,20 @@ class Logger {
                 resolve(answer === 'y'); // true for 'y', false for 'n'
             });
         });
+    }
+
+    // Track and log the build time
+    startBuildTimer() {
+        this.buildStartTime = Date.now();
+    }
+
+    stopBuildTimer() {
+        this.stopLoading()
+        if (this.buildStartTime) {
+            const buildDuration = ((Date.now() - this.buildStartTime) / 1000).toFixed(2); // in seconds
+            console.log(`${this.getTimestamp()} ${chalk.green("✔")} ${chalk.green(`Build completed in ${buildDuration} seconds`)}`);
+            this.buildStartTime = null; // Reset after logging the duration
+        }
     }
 }
 
