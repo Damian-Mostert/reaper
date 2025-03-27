@@ -212,7 +212,7 @@ export function useApi<T, T2>(name: string,params?:any) {
 	return {
 		api,
 		async call(data?: T): Promise<T2> {
-			let url = new URL(parseUrl(api.api.url, params), window.location.origin);
+			let url = new URL(parseUrl(api.url, params), window.location.origin);
 			return new Promise(async (resolve, reject) => {
 				try {
 					let config: RequestInit = {
