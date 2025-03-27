@@ -204,7 +204,7 @@ export function useListener<socketFunnle>(name:string){
 	}
 }
 
-export function useApi<T, T2>(name: string) {
+export function useApi<T, T2>(name: string,params?:any) {
 	//@ts-ignore
 	const api = window.reaperClientSideNames.apis.find((n: any) => n.name === name);
 	if (!api) throw new Error(`Invalid API name: ${name}`);
@@ -212,9 +212,9 @@ export function useApi<T, T2>(name: string) {
 	return {
 		api,
 		async call(data?: T): Promise<T2> {
+			let url = new URL(parseUrl(api.api.url, params), window.location.origin);
 			return new Promise(async (resolve, reject) => {
 				try {
-					let url = new URL(`${window.location.protocol}${window.location.host}${api.url}`);
 					let config: RequestInit = {
 						method: api.method,
 						headers: {
@@ -372,11 +372,26 @@ const parseUrl = (url: string, params: { [key: string]: string }): string => {
         return params[key] !== undefined ? params[key] : `[${key}]`; // Replace or keep placeholder
     });
 };
+
+/* type Pages = "home-page" | "test-page";
+
+interface HomePageInterface {params?:{[key:string]:string},data?:{
+	test:"haha"
+}}
+interface TestPageInterface {params?:{[key:string]:string},data?:{[key:string]:any}}
+
+// Map pages to their respective interfaces
+type PageInterfaces = {
+  "home-page": HomePageInterface;
+  "test-page": TestPageInterface;
+};
+export function loadTemplateFromApi<T extends Pages>(name: T, data:PageInterfaces[T]) { */
+
 export function loadTemplateFromApi(name: string, data:{params?:{[key:string]:string},data?:{[key:string]:any}}) {
 	if(!data.params)data.params = {};
 	if(!data.data)data.data = {};
 	data.data.reaperTemplateBasicRequest = true;
-	const api = useApi(name);
+	const api = useApi(name,data.params);
     let url = new URL(parseUrl(api.api.url, data.params), window.location.origin);
 	api.call(data.data).then((res: any) => {
 		unapplyAllStyles();
